@@ -1,0 +1,80 @@
+---
+export const prerender = false
+
+import Layout from '../../layouts/Layout.astro'
+import Header from '../../components/Header.astro'
+import { CheckoutForm } from '../../components/CheckoutForm'
+import type { Gift } from '@wedding/supabase'
+
+const { id } = Astro.params
+
+let gift: Gift | null = null
+
+if (!id) {
+  return Astro.redirect('/presentes')
+}
+
+if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
+  try {
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY)
+    const { data } = await supabase
+      .from('gifts')
+      .select('*')
+      .eq('id', id)
+      .eq('is_available', true)
+      .single()
+    gift = data
+  } catch {
+    // Supabase not configured yet
+  }
+}
+
+if (!gift) {
+  return Astro.redirect('/presentes')
+}
+
+function formatBRL(cents: number) {
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100)
+}
+---
+
+<Layout
+  title={`${gift.name} | Presentes – Raíssa & Felipe`}
+  description={`Presenteie Raíssa e Felipe com "${gift.name}".`}
+>
+  <Header />
+
+  <main class="pt-20 min-h-screen bg-background">
+    <div class="max-w-2xl mx-auto px-4 md:px-8 py-12 md:py-20">
+      <!-- Back link -->
+      <a
+        href="/presentes"
+        class="inline-flex items-center gap-2 font-body text-xs uppercase tracking-widest text-text-muted hover:text-text transition-colors mb-10"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Voltar para a lista
+      </a>
+
+      <!-- Section title -->
+      <div class="mb-8">
+        <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-2">
+          Presente selecionado
+        </p>
+        <h1 class="font-display text-2xl md:text-3xl text-text">{gift.name}</h1>
+        <p class="font-body text-xl text-gold font-medium mt-2">{formatBRL(gift.price_cents)}</p>
+      </div>
+
+      <!-- Checkout form (React island) -->
+      <CheckoutForm client:load gift={gift} />
+    </div>
+  </main>
+
+  <footer class="bg-primary-dark text-white py-8 text-center">
+    <a href="/" class="font-display text-lg tracking-widest text-white hover:text-gold transition-colors">
+      R & F
+    </a>
+  </footer>
+</Layout>

@@ -1,0 +1,45 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+---
+
+<Layout title="Obrigado! | Raíssa & Felipe" description="Seu presente foi recebido com muito carinho!">
+  <Header />
+
+  <main class="pt-20 min-h-screen bg-background flex items-center justify-center px-4">
+    <div class="max-w-lg text-center py-20">
+      <!-- Icon -->
+      <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-8">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#404a32" stroke-width="1.5">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+
+      <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-4">
+        Pagamento confirmado
+      </p>
+      <h1 class="font-display text-3xl md:text-4xl text-text mb-5">
+        Muito obrigado! 🌿
+      </h1>
+      <p class="font-body text-sm text-text-muted leading-relaxed mb-10 max-w-sm mx-auto">
+        Seu presente foi recebido com muito carinho. Mal podemos esperar para compartilhar
+        este momento especial com você em <strong>28 de novembro de 2026</strong>.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/presentes"
+          class="inline-flex items-center justify-center font-body text-[11px] uppercase tracking-widest text-white bg-primary px-8 py-3.5 hover:bg-primary-dark transition-colors"
+        >
+          Ver mais presentes
+        </a>
+        <a
+          href="/"
+          class="inline-flex items-center justify-center font-body text-[11px] uppercase tracking-widest text-text border border-border px-8 py-3.5 hover:bg-surface transition-colors"
+        >
+          Voltar ao início
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,60 @@
+---
+export const prerender = false
+
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import { GiftGrid } from '../components/GiftGrid'
+import type { Gift } from '@wedding/supabase'
+
+let gifts: Gift[] = []
+
+if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
+  try {
+    const { createClient } = await import('@supabase/supabase-js')
+    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY)
+    const { data } = await supabase
+      .from('gifts')
+      .select('*')
+      .eq('is_available', true)
+      .order('created_at', { ascending: false })
+    gifts = data ?? []
+  } catch {
+    // Supabase not configured yet — show empty state
+  }
+}
+---
+
+<Layout
+  title="Lista de Presentes | Raíssa & Felipe"
+  description="Selecione um presente especial para Raíssa e Felipe. Pagamento seguro via Stripe."
+>
+  <Header />
+
+  <main class="pt-20">
+    <!-- Page header -->
+    <div class="bg-primary-dark text-white py-20 md:py-28 text-center">
+      <p class="font-body text-[10px] uppercase tracking-[0.35em] text-white/50 mb-4">
+        Comemore conosco
+      </p>
+      <h1 class="font-display text-3xl md:text-5xl">Nossa Lista de Presentes</h1>
+      <p class="font-body text-sm text-white/60 mt-4 max-w-md mx-auto leading-relaxed">
+        Sua presença é o maior presente. Mas se desejar nos honrar com um gift,
+        escolha algo que tornará nossa nova vida ainda mais especial.
+      </p>
+    </div>
+
+    <!-- Gift grid -->
+    <section class="bg-background py-16 md:py-20">
+      <div class="max-w-6xl mx-auto px-4 md:px-8">
+        <GiftGrid client:load gifts={gifts} />
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-primary-dark text-white py-10 text-center">
+    <a href="/" class="font-display text-xl tracking-widest text-white hover:text-gold transition-colors">
+      R & F
+    </a>
+    <p class="font-body text-[10px] text-white/30 uppercase tracking-widest mt-1">28.11.2026</p>
+  </footer>
+</Layout>

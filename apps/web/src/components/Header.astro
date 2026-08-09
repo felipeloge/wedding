@@ -1,0 +1,140 @@
+---
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+  <div class="px-4 md:px-8 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Spacer -->
+      <div class="w-10 md:w-12"></div>
+
+      <!-- Logo -->
+      <a
+        href="/"
+        id="header-logo"
+        class="font-display text-xl md:text-2xl tracking-[0.2em] text-white transition-colors duration-300"
+      >
+        R & F
+      </a>
+
+      <!-- Hamburger -->
+      <button
+        id="menu-toggle"
+        class="w-10 h-10 flex items-center justify-center text-white transition-colors duration-300 focus:outline-none"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+      >
+        <svg
+          id="icon-menu"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+        >
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-40 bg-primary-dark flex flex-col items-center justify-center translate-x-full transition-transform duration-500 ease-in-out"
+  aria-hidden="true"
+>
+  <button
+    id="menu-close"
+    class="absolute top-5 right-4 text-white/60 hover:text-white p-2 transition-colors focus:outline-none"
+    aria-label="Fechar menu"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+
+  <div class="text-center mb-10">
+    <span class="font-display text-3xl text-white tracking-widest">R & F</span>
+  </div>
+
+  <nav class="flex flex-col items-center gap-6">
+    {
+      [
+        { href: '/#inicio', label: 'Início' },
+        { href: '/#fotos', label: 'Fotos' },
+        { href: '/#cerimonia', label: 'Cerimônia' },
+        { href: '/#hospedagem', label: 'Hospedagem' },
+        { href: '/presentes', label: 'Lista de Presentes' },
+      ].map(({ href, label }) => (
+        <a
+          href={href}
+          class="font-display text-2xl text-white hover:text-gold transition-colors duration-200 menu-link"
+        >
+          {label}
+        </a>
+      ))
+    }
+  </nav>
+
+  <p class="absolute bottom-8 font-body text-xs text-white/30 uppercase tracking-widest">28.11.2026</p>
+</div>
+
+<script>
+  const header = document.getElementById('site-header')
+  const menuToggle = document.getElementById('menu-toggle')
+  const menuClose = document.getElementById('menu-close')
+  const mobileMenu = document.getElementById('mobile-menu')
+
+  // Sticky header on scroll
+  let ticking = false
+  const updateHeader = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 60
+        if (scrolled) {
+          header?.classList.add('bg-primary-dark/95', 'backdrop-blur-sm', 'border-b', 'border-white/10', 'shadow-sm')
+        } else {
+          header?.classList.remove('bg-primary-dark/95', 'backdrop-blur-sm', 'border-b', 'border-white/10', 'shadow-sm')
+        }
+        ticking = false
+      })
+      ticking = true
+    }
+  }
+
+  window.addEventListener('scroll', updateHeader, { passive: true })
+
+  // Mobile menu open/close
+  const openMenu = () => {
+    mobileMenu?.classList.remove('translate-x-full')
+    mobileMenu?.setAttribute('aria-hidden', 'false')
+    menuToggle?.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeMenu = () => {
+    mobileMenu?.classList.add('translate-x-full')
+    mobileMenu?.setAttribute('aria-hidden', 'true')
+    menuToggle?.setAttribute('aria-expanded', 'false')
+    document.body.style.overflow = ''
+  }
+
+  menuToggle?.addEventListener('click', openMenu)
+  menuClose?.addEventListener('click', closeMenu)
+
+  // Close on nav link click
+  document.querySelectorAll('.menu-link').forEach((link) => {
+    link.addEventListener('click', closeMenu)
+  })
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu()
+  })
+</script>

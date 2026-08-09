@@ -1,0 +1,251 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import { HeroCountdown } from '../components/HeroCountdown'
+import { PreWeddingCarousel } from '../components/PreWeddingCarousel'
+---
+
+<Layout title="Raíssa & Felipe | 28.11.2026" description="Celebre conosco o nosso casamento em 28 de novembro de 2026.">
+  <Header />
+
+  <!-- ── HERO ───────────────────────────────────────────────── -->
+  <section
+    id="inicio"
+    class="relative min-h-screen flex items-end pb-20 md:pb-28 overflow-hidden"
+  >
+    <!--
+      Background hero image:
+      Replace the gradient below with your photo:
+        <img src="/images/hero.jpg" class="absolute inset-0 w-full h-full object-cover object-center" alt="" />
+    -->
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-primary-dark via-primary/90 to-primary-dark"
+    ></div>
+
+    <!-- Decorative grain -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+      style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4t5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92ZxVna+U3D/h+9eC519z8eOVXFmZt8nZ/P9J2wqSbY7rp5kntEoCVYm3arJp/PkA2Xws5CLTfD/5TFDkLaTOvhXCbGVOGhpq7VTZ/NeVbSMCiSL9hSxM/Y2k0GRKTLVVMRkVxCU2j4V1HkBThALHMYMJP4yUGUMqJH0JkJqMfn6n5ZW/7EqnFBb8GYvWRNt9t0A9qxb6V+JcBJCYJAyFOBAlllBRCVDIPYZ0LvFr4sQn8bBY2OWuJeUrSs3xrF/Hxjvt0bNS3Ycc7UWRD/4lC9OMaM3aCOt5c3sT7i00dO/UxHMYIbWqBo8nC9VwZPuH7rBTHGlbliJx5gXOI+5pUOhBChVMqV/bvNcifZ2SV1JDXqDAQYf/6NmpI5HmC6iJkK2eBZ2vB2Pnl8+jJAa7R+PBCeBD5GEBnMxmWpN5BhLKGNABvvYjwT/MSQ==');"></div>
+
+    <div class="relative z-10 w-full px-4 md:px-8 text-center">
+      <p class="font-body text-[10px] md:text-xs uppercase tracking-[0.4em] text-white/50 mb-6">
+        Convidam para o seu casamento
+      </p>
+
+      <h1 class="font-display font-bold leading-none text-white">
+        <span class="block text-5xl md:text-7xl lg:text-[7rem]">Raíssa</span>
+        <span class="block font-normal italic text-gold text-3xl md:text-4xl lg:text-5xl my-3 md:my-4"
+          >&amp;</span
+        >
+        <span class="block text-5xl md:text-7xl lg:text-[7rem]">Felipe</span>
+      </h1>
+
+      <p class="font-body text-sm md:text-base text-white/60 tracking-[0.3em] mt-6 mb-10 md:mb-12">
+        28 · 11 · 2026
+      </p>
+
+      <div class="flex justify-center mb-12 md:mb-14">
+        <HeroCountdown client:load />
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a
+          href="/presentes"
+          class="inline-flex items-center justify-center gap-2 bg-gold text-white font-body text-[11px] uppercase tracking-[0.2em] px-8 py-3.5 hover:bg-gold/90 transition-colors duration-200"
+        >
+          Lista de Presentes
+        </a>
+        <a
+          href="/#cerimonia"
+          class="inline-flex items-center justify-center gap-2 border border-white/30 text-white font-body text-[11px] uppercase tracking-[0.2em] px-8 py-3.5 hover:bg-white/10 transition-colors duration-200"
+        >
+          Detalhes da Cerimônia
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+      <span class="font-body text-[9px] uppercase tracking-widest text-white">Role</span>
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        stroke-width="1.5"
+        class="animate-bounce"
+      >
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── PRE-WEDDING PHOTOS ──────────────────────────────────── -->
+  <section id="fotos" class="bg-background">
+    <div class="text-center pt-16 md:pt-20 pb-10 md:pb-12">
+      <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-3">
+        Nossa história
+      </p>
+      <h2 class="font-display text-2xl md:text-3xl text-text">Pré-Wedding</h2>
+    </div>
+
+    <!--
+      Pass your pre-wedding photo URLs as the images prop:
+      <PreWeddingCarousel client:load images={['/images/pw1.jpg', '/images/pw2.jpg']} />
+    -->
+    <PreWeddingCarousel client:load />
+
+    <div class="py-10 text-center">
+      <p class="font-body text-xs text-text-muted italic">
+        Fotografias em breve
+      </p>
+    </div>
+  </section>
+
+  <!-- ── CEREMONY DETAILS ────────────────────────────────────── -->
+  <section id="cerimonia" class="py-20 md:py-28 bg-surface-low">
+    <div class="max-w-5xl mx-auto px-4 md:px-8">
+      <div class="text-center mb-14">
+        <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-3">
+          Cerimônia &amp; Recepção
+        </p>
+        <h2 class="font-display text-2xl md:text-3xl text-text">Onde &amp; Quando</h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-px bg-border">
+        <!-- Ceremony -->
+        <div class="bg-surface-lowest p-8 md:p-10">
+          <p class="font-body text-[10px] uppercase tracking-[0.25em] text-gold mb-5">
+            Cerimônia
+          </p>
+          <h3 class="font-display text-xl md:text-2xl text-text mb-3">
+            A definir
+          </h3>
+          <address class="not-italic font-body text-sm text-text-muted leading-relaxed">
+            Endereço a confirmar<br />
+            São Paulo – SP
+          </address>
+          <div class="mt-5 pt-5 border-t border-border">
+            <p class="font-body text-sm text-text">Sábado, 28 de novembro de 2026</p>
+            <p class="font-body text-sm text-text-muted mt-1">às 17h00</p>
+          </div>
+        </div>
+
+        <!-- Reception -->
+        <div class="bg-surface-lowest p-8 md:p-10">
+          <p class="font-body text-[10px] uppercase tracking-[0.25em] text-gold mb-5">
+            Recepção
+          </p>
+          <h3 class="font-display text-xl md:text-2xl text-text mb-3">
+            A definir
+          </h3>
+          <address class="not-italic font-body text-sm text-text-muted leading-relaxed">
+            Endereço a confirmar<br />
+            São Paulo – SP
+          </address>
+          <div class="mt-5 pt-5 border-t border-border">
+            <p class="font-body text-sm text-text">Sábado, 28 de novembro de 2026</p>
+            <p class="font-body text-sm text-text-muted mt-1">às 19h00</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Map placeholder -->
+      <div
+        class="mt-px h-64 bg-surface-lowest border-x border-b border-border flex items-center justify-center"
+      >
+        <div class="text-center">
+          <svg
+            class="w-8 h-8 text-text-muted/30 mx-auto mb-3"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          <p class="font-body text-xs text-text-muted">Mapa em breve</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ACCOMMODATION ──────────────────────────────────────── -->
+  <section id="hospedagem" class="py-20 md:py-28 bg-background">
+    <div class="max-w-5xl mx-auto px-4 md:px-8">
+      <div class="text-center mb-14">
+        <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-3">
+          Para os viajantes
+        </p>
+        <h2 class="font-display text-2xl md:text-3xl text-text">Onde se Hospedar</h2>
+        <p class="font-body text-sm text-text-muted mt-4 max-w-xl mx-auto leading-relaxed">
+          Algumas sugestões de hotéis próximos ao local da festa para tornar
+          sua estadia ainda mais confortável.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-px bg-border">
+        {
+          ['Opção 1', 'Opção 2', 'Opção 3'].map((label) => (
+            <div class="bg-surface-lowest p-7">
+              <p class="font-body text-[10px] uppercase tracking-[0.2em] text-gold mb-3">{label}</p>
+              <h3 class="font-display text-lg text-text mb-2">Hotel a definir</h3>
+              <p class="font-body text-sm text-text-muted leading-relaxed">Endereço a confirmar</p>
+              <a
+                href="#"
+                class="inline-block mt-4 font-body text-[10px] uppercase tracking-widest text-primary hover:text-primary-dark transition-colors"
+              >
+                Ver no Maps →
+              </a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GIFT REGISTRY CTA ──────────────────────────────────── -->
+  <section id="presentes" class="py-24 md:py-32 bg-primary text-white text-center">
+    <div class="max-w-2xl mx-auto px-4 md:px-8">
+      <p class="font-body text-[10px] uppercase tracking-[0.35em] text-white/50 mb-5">
+        Um gesto de amor
+      </p>
+      <h2 class="font-display text-3xl md:text-4xl mb-6">Lista de Presentes</h2>
+      <p class="font-body text-sm text-white/60 leading-relaxed mb-10 max-w-md mx-auto">
+        Sua presença é o maior presente. Mas se desejar nos honrar com um gift para
+        celebrar nosso novo começo, preparamos uma seleção especial de itens e
+        experiências.
+      </p>
+      <a
+        href="/presentes"
+        class="inline-flex items-center gap-2 bg-gold text-white font-body text-[11px] uppercase tracking-[0.2em] px-10 py-4 hover:bg-gold/90 transition-colors duration-200"
+      >
+        Ver Lista de Presentes
+      </a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────────────────── -->
+  <footer class="bg-primary-dark text-white py-10 text-center">
+    <p class="font-display text-2xl tracking-widest mb-1">R & F</p>
+    <p class="font-body text-[10px] text-white/30 uppercase tracking-widest">
+      28 · 11 · 2026 · São Paulo
+    </p>
+    <nav class="flex justify-center gap-6 mt-6">
+      {
+        [
+          { href: '/presentes', label: 'Presentes' },
+          { href: `${import.meta.env.PUBLIC_FEED_URL ?? '#'}`, label: 'Cápsula do Tempo' },
+        ].map(({ href, label }) => (
+          <a href={href} class="font-body text-[10px] uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors">
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+    <p class="font-body text-[10px] text-white/20 mt-6">
+      © 2026 Raíssa &amp; Felipe. Feito com muito amor.
+    </p>
+  </footer>
+</Layout>
