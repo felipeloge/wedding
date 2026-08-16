@@ -166,6 +166,17 @@ export function GiftsPage() {
 
   const isPending = createMutation.isPending || updateMutation.isPending || uploading
 
+  const totalValue = gifts.reduce((sum, g) => sum + g.price_cents, 0)
+  const availableCount = gifts.filter((g) => g.is_available).length
+  const purchasedCount = gifts.length - availableCount
+
+  const byPrice = Object.entries(
+    gifts.reduce<Record<number, number>>((acc, g) => {
+      acc[g.price_cents] = (acc[g.price_cents] ?? 0) + 1
+      return acc
+    }, {}),
+  ).sort(([a], [b]) => Number(a) - Number(b))
+
   // ── Render ────────────────────────────────────────────────
   return (
     <div>
@@ -181,6 +192,39 @@ export function GiftsPage() {
           Adicionar
         </Button>
       </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        {[
+          { label: 'Total de itens', value: gifts.length },
+          { label: 'Disponíveis', value: availableCount },
+          { label: 'Comprados', value: purchasedCount },
+          { label: 'Valor total', value: formatCents(totalValue) },
+        ].map(({ label, value }) => (
+          <div key={label} className="bg-surface-lowest border border-border px-4 py-3">
+            <p className="font-body text-[10px] uppercase tracking-widest text-text-muted mb-1">{label}</p>
+            <p className="font-display text-xl text-text">{value}</p>
+          </div>
+        ))}
+      </div>
+
+      {byPrice.length > 0 && (
+        <div className="mb-6">
+          <p className="font-body text-[10px] uppercase tracking-widest text-text-muted mb-2">
+            Distribuição por valor
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {byPrice.map(([cents, count]) => (
+              <div
+                key={cents}
+                className="bg-surface-lowest border border-border px-3 py-2 flex items-baseline gap-2"
+              >
+                <span className="font-display text-base text-text">{count}×</span>
+                <span className="font-body text-sm text-text-muted">{formatCents(Number(cents))}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {isLoading ? (
         <div className="flex justify-center py-20">

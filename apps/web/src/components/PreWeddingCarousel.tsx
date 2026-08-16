@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import styles from './PreWeddingCarousel.module.scss'
 
 interface Props {
   images?: string[]
@@ -10,7 +11,6 @@ export function PreWeddingCarousel({ images }: Props) {
   const [current, setCurrent] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
-  // Use placeholder gradient slides if no images provided
   const slides = images && images.length > 0 ? images : null
   const count = slides ? slides.length : PLACEHOLDER_COUNT
 
@@ -28,55 +28,36 @@ export function PreWeddingCarousel({ images }: Props) {
     return () => clearInterval(timer)
   }, [isAutoPlaying, next])
 
-  const gradients = [
-    'from-primary-dark to-primary',
-    'from-primary to-secondary',
-    'from-secondary to-primary-dark',
-    'from-primary/80 to-primary-dark/60',
-    'from-primary-dark/70 to-secondary/80',
-  ]
-
   return (
     <div
-      className="relative overflow-hidden bg-primary-dark"
-      style={{ height: 'clamp(320px, 65vh, 700px)' }}
+      className={styles.carousel}
       onMouseEnter={() => setIsAutoPlaying(false)}
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
-      {/* Slides */}
       {Array.from({ length: count }).map((_, index) => (
         <div
           key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-            index === current ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`${styles.slide}${index === current ? ` ${styles.active}` : ''}`}
         >
           {slides ? (
             <img
               src={slides[index]}
               alt={`Foto ${index + 1} do pré-wedding de Raíssa e Felipe`}
-              className="w-full h-full object-cover"
+              className={styles.img}
               loading={index === 0 ? 'eager' : 'lazy'}
             />
           ) : (
-            // Placeholder gradient for development
-            <div
-              className={`w-full h-full bg-gradient-to-br ${gradients[index % gradients.length]} flex items-center justify-center`}
-            >
-              <span className="font-display text-6xl md:text-8xl text-white/10 select-none">
-                R & F
-              </span>
+            <div className={styles.placeholder}>
+              <span className={styles.placeholderText}>R & F</span>
             </div>
           )}
-          {/* Subtle darkening overlay for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/40 via-transparent to-transparent" />
+          <div className={styles.overlay} />
         </div>
       ))}
 
-      {/* Prev / Next buttons */}
       <button
         onClick={prev}
-        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus:outline-none"
+        className={`${styles.btn} ${styles.btnPrev}`}
         aria-label="Foto anterior"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
@@ -86,7 +67,7 @@ export function PreWeddingCarousel({ images }: Props) {
 
       <button
         onClick={next}
-        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center text-white/70 hover:text-white transition-colors focus:outline-none"
+        className={`${styles.btn} ${styles.btnNext}`}
         aria-label="Próxima foto"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
@@ -94,17 +75,12 @@ export function PreWeddingCarousel({ images }: Props) {
         </svg>
       </button>
 
-      {/* Dot indicators */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
+      <div className={styles.dots}>
         {Array.from({ length: count }).map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`rounded-full transition-all duration-300 focus:outline-none ${
-              index === current
-                ? 'w-5 h-1.5 bg-white'
-                : 'w-1.5 h-1.5 bg-white/40 hover:bg-white/70'
-            }`}
+            className={`${styles.dot}${index === current ? ` ${styles.active}` : ''}`}
             aria-label={`Ir para foto ${index + 1}`}
           />
         ))}

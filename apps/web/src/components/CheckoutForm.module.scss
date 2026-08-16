@@ -1,0 +1,174 @@
+@use '../styles/variables' as v;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// ─── Order summary ────────────────────────────────────────────────────────────
+
+.summary {
+  border: 1px solid v.$c-border;
+  background: v.$c-surface-lowest;
+  padding: 1.5rem;
+}
+
+.summaryLabel {
+  font-family: v.$f-body;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: v.$c-text-muted;
+  margin-bottom: 1rem;
+}
+
+.summaryContent {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.summaryImgWrap {
+  width: 5rem;
+  height: 5rem;
+  flex-shrink: 0;
+  border: 1px solid v.$c-border;
+  overflow: hidden;
+  background: v.$c-surface-low;
+}
+
+.summaryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.summaryInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.summaryName {
+  font-family: v.$f-display;
+  font-size: 1.125rem;
+  color: v.$c-text;
+  line-height: 1.375;
+}
+
+.summaryDesc {
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  color: v.$c-text-muted;
+  margin-top: 0.25rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.summaryPrice {
+  font-family: v.$f-body;
+  font-size: 1.25rem;
+  color: v.$c-gold;
+  font-weight: 500;
+  margin-top: 0.75rem;
+}
+
+// ─── Message field ────────────────────────────────────────────────────────────
+
+.messageField {
+  display: flex;
+  flex-direction: column;
+}
+
+.messageLabel {
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: v.$c-text;
+  margin-bottom: 0.5rem;
+
+  span {
+    color: v.$c-text-muted;
+    font-weight: 400;
+  }
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid v.$c-border;
+  background: white;
+  padding: 0.75rem 1rem;
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  color: v.$c-text;
+  outline: none;
+  resize: none;
+  transition: border-color 150ms;
+
+  &::placeholder {
+    color: rgba(69, 72, 63, 0.6);
+  }
+
+  &:focus {
+    border-color: v.$c-primary;
+  }
+}
+
+.charCount {
+  text-align: right;
+  font-family: v.$f-body;
+  font-size: 0.75rem;
+  color: v.$c-text-muted;
+  margin-top: 0.25rem;
+}
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+
+.error {
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  padding: 0.75rem 1rem;
+}
+
+// ─── Submit ───────────────────────────────────────────────────────────────────
+
+.submitBtn {
+  width: 100%;
+  background: v.$c-primary;
+  color: white;
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 1rem;
+  transition: background-color 200ms;
+
+  &:hover:not(:disabled) {
+    background: v.$c-primary-dark;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Secure notice ────────────────────────────────────────────────────────────
+
+.secure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: v.$c-text-muted;
+
+  span {
+    font-family: v.$f-body;
+    font-size: 0.75rem;
+  }
+}

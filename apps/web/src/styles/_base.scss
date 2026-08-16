@@ -1,0 +1,99 @@
+@use 'variables' as v;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: v.$f-body;
+  font-size: 10px;
+  background-color: v.$c-bg;
+  color: v.$c-text;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: v.$f-display;
+  margin: 0;
+}
+
+p,
+address,
+blockquote,
+cite {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+// ─── Shared section layout ────────────────────────────────────────────────────
+
+.section-header {
+  padding: 2.4rem;
+  text-align: center;
+}
+
+.section-eyebrow {
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: v.$c-text-muted;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: v.$f-display;
+  font-size: 2.4rem;
+  color: v.$c-primary-dark;
+
+  @include v.md {
+    font-size: 3.2rem;
+  }
+}
+
+// ─── Grid-gap-as-border trick ─────────────────────────────────────────────────
+// Apply to grid container; children set their own background to appear as cards
+// separated by 1-px lines.
+.grid-ruled {
+  display: grid;
+  gap: 1px;
+  background: v.$c-border;
+}
+
+// ─── Utility ─────────────────────────────────────────────────────────────────
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

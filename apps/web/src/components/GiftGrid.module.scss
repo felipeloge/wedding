@@ -1,0 +1,138 @@
+@use '../styles/variables' as v;
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+
+.empty {
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.emptyTitle {
+  font-family: v.$f-display;
+  font-size: 1.25rem;
+  color: v.$c-text-muted;
+}
+
+.emptyText {
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  color: v.$c-text-muted;
+  margin-top: 0.5rem;
+}
+
+// ─── Grid ─────────────────────────────────────────────────────────────────────
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: v.$c-border;
+
+  @include v.sm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include v.lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+
+.card {
+  background: v.$c-surface-lowest;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrap {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: v.$c-surface-low;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease-out;
+
+  .card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.imgPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, v.$c-surface-low, v.$c-surface);
+}
+
+.imgPlaceholderText {
+  font-family: v.$f-display;
+  font-size: 2.25rem;
+  color: rgba(69, 72, 63, 0.2);
+  user-select: none;
+}
+
+.body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.title {
+  font-family: v.$f-display;
+  font-size: 1.125rem;
+  color: v.$c-text;
+  line-height: 1.375;
+  margin-bottom: 0.25rem;
+}
+
+.desc {
+  font-family: v.$f-body;
+  font-size: 0.875rem;
+  color: v.$c-text-muted;
+  line-height: 1.625;
+  margin-bottom: 1rem;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid v.$c-border;
+}
+
+.price {
+  font-family: v.$f-body;
+  font-size: 1rem;
+  color: v.$c-primary;
+  font-weight: 500;
+}
+
+.buyBtn {
+  font-family: v.$f-body;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: white;
+  background: v.$c-primary;
+  padding: 0.625rem 1.25rem;
+  transition: background-color 200ms;
+
+  &:hover {
+    background: v.$c-primary-dark;
+  }
+}

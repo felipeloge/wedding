@@ -3,249 +3,754 @@ import Layout from '../layouts/Layout.astro'
 import Header from '../components/Header.astro'
 import { HeroCountdown } from '../components/HeroCountdown'
 import { PreWeddingCarousel } from '../components/PreWeddingCarousel'
+// Side-effect imports: force CSS module extraction into the bundle
+import '../components/HeroCountdown.module.scss'
 ---
 
 <Layout title="Raíssa & Felipe | 28.11.2026" description="Celebre conosco o nosso casamento em 28 de novembro de 2026.">
   <Header />
 
   <!-- ── HERO ───────────────────────────────────────────────── -->
-  <section
-    id="inicio"
-    class="relative min-h-screen flex items-end pb-20 md:pb-28 overflow-hidden"
-  >
-    <!--
-      Background hero image:
-      Replace the gradient below with your photo:
-        <img src="/images/hero.jpg" class="absolute inset-0 w-full h-full object-cover object-center" alt="" />
-    -->
-    <div
-      class="absolute inset-0 bg-gradient-to-b from-primary-dark via-primary/90 to-primary-dark"
-    ></div>
+  <section id="inicio" class="hero">
+    <img src="/images/cover.jpeg" class="hero__bg" alt="Raíssa e Felipe" />
+    <div class="hero__overlay"></div>
 
-    <!-- Decorative grain -->
-    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
-      style="background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4t5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmQDeuv3powQ5ta2eN0FY0InkqDD73lT9c9lEzwUNqgFHs9VQce3TVClFCQrSTfOiYkVJQBmpbq2L6iZavPnAPcoU0dSw0SUTqz/GtrGuXfbyyBniKykOWQWGqwwMA7QiYAxi+IlPdqo+hYHnUt5ZPfnsHJyNiDtnpJyayNBkF6cWoYGAMY92ZxVna+U3D/h+9eC519z8eOVXFmZt8nZ/P9J2wqSbY7rp5kntEoCVYm3arJp/PkA2Xws5CLTfD/5TFDkLaTOvhXCbGVOGhpq7VTZ/NeVbSMCiSL9hSxM/Y2k0GRKTLVVMRkVxCU2j4V1HkBThALHMYMJP4yUGUMqJH0JkJqMfn6n5ZW/7EqnFBb8GYvWRNt9t0A9qxb6V+JcBJCYJAyFOBAlllBRCVDIPYZ0LvFr4sQn8bBY2OWuJeUrSs3xrF/Hxjvt0bNS3Ycc7UWRD/4lC9OMaM3aCOt5c3sT7i00dO/UxHMYIbWqBo8nC9VwZPuH7rBTHGlbliJx5gXOI+5pUOhBChVMqV/bvNcifZ2SV1JDXqDAQYf/6NmpI5HmC6iJkK2eBZ2vB2Pnl8+jJAa7R+PBCeBD5GEBnMxmWpN5BhLKGNABvvYjwT/MSQ==');"></div>
-
-    <div class="relative z-10 w-full px-4 md:px-8 text-center">
-      <p class="font-body text-[10px] md:text-xs uppercase tracking-[0.4em] text-white/50 mb-6">
-        Convidam para o seu casamento
-      </p>
-
-      <h1 class="font-display font-bold leading-none text-white">
-        <span class="block text-5xl md:text-7xl lg:text-[7rem]">Raíssa</span>
-        <span class="block font-normal italic text-gold text-3xl md:text-4xl lg:text-5xl my-3 md:my-4"
-          >&amp;</span
-        >
-        <span class="block text-5xl md:text-7xl lg:text-[7rem]">Felipe</span>
+    <div class="hero__top">
+      <h1 class="hero__title" aria-label="Raíssa & Felipe">
+        Raíssa <br>&</br> Felipe
       </h1>
-
-      <p class="font-body text-sm md:text-base text-white/60 tracking-[0.3em] mt-6 mb-10 md:mb-12">
-        28 · 11 · 2026
-      </p>
-
-      <div class="flex justify-center mb-12 md:mb-14">
-        <HeroCountdown client:load />
-      </div>
-
-      <div class="flex flex-col sm:flex-row gap-3 justify-center">
-        <a
-          href="/presentes"
-          class="inline-flex items-center justify-center gap-2 bg-gold text-white font-body text-[11px] uppercase tracking-[0.2em] px-8 py-3.5 hover:bg-gold/90 transition-colors duration-200"
-        >
-          Lista de Presentes
-        </a>
-        <a
-          href="/#cerimonia"
-          class="inline-flex items-center justify-center gap-2 border border-white/30 text-white font-body text-[11px] uppercase tracking-[0.2em] px-8 py-3.5 hover:bg-white/10 transition-colors duration-200"
-        >
-          Detalhes da Cerimônia
-        </a>
-      </div>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
-      <span class="font-body text-[9px] uppercase tracking-widest text-white">Role</span>
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="white"
-        stroke-width="1.5"
-        class="animate-bounce"
-      >
-        <polyline points="6 9 12 15 18 9" />
-      </svg>
+    <div class="hero__bottom">
+      <p class="hero__date">28 · 11 · 2026</p>
+      <HeroCountdown client:only="react" />
+      <div class="hero__scroll">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" class="animate-bounce">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </div>
     </div>
   </section>
 
-  <!-- ── PRE-WEDDING PHOTOS ──────────────────────────────────── -->
-  <section id="fotos" class="bg-background">
-    <div class="text-center pt-16 md:pt-20 pb-10 md:pb-12">
-      <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-3">
-        Nossa história
-      </p>
-      <h2 class="font-display text-2xl md:text-3xl text-text">Pré-Wedding</h2>
+  <!-- ── BIBLE IMAGE ─────────────────────────────────────────── -->
+  <section class="bible-section">
+    <img src="/images/bible.jpeg" alt="Bíblia" class="bible-section__img" />
+    <div class="bible-section__overlay">
+      <blockquote class="bible-section__quote">
+        <p class="bible-section__quote-text">&ldquo;O cordão de três dobras não se rompe com facilidade.&rdquo;</p>
+        <cite class="bible-section__quote-cite">Eclesiastes 4,12</cite>
+      </blockquote>
     </div>
+  </section>
 
-    <!--
-      Pass your pre-wedding photo URLs as the images prop:
-      <PreWeddingCarousel client:load images={['/images/pw1.jpg', '/images/pw2.jpg']} />
-    -->
-    <PreWeddingCarousel client:load />
-
-    <div class="py-10 text-center">
-      <p class="font-body text-xs text-text-muted italic">
-        Fotografias em breve
-      </p>
+  <!-- ── OUR STORY ──────────────────────────────────────────── -->
+  <section id="historia" class="story-section">
+    <div class="story-section__inner">
+      <div class="section-header">
+        <h2 class="section-title">Nossa História</h2>
+      </div>
+      <div class="story-section__grid">
+        <div class="story-section__text">
+          <p>Tudo começou de forma simples, ainda muito jovens, em uma festa junina de escola.</p>
+          <p>A vida seguiu, os caminhos se separaram… mas Deus já escrevia algo maior.</p>
+          <p>Anos depois, em um reencontro inesperado — em um dia que nem estava nos planos — nossos caminhos se cruzaram novamente. E, desde então, nunca mais nos separamos.</p>
+          <p>Já são anos caminhando juntos, crescendo, amadurecendo e construindo uma história guiada pela fé e pelo amor.</p>
+          <p>Hoje, seguimos lado a lado, com Deus no centro de tudo, e com o nosso Flokinho, que completa a nossa alegria.</p>
+          <p>Agora, com o coração cheio de gratidão, nos preparamos para o nosso &ldquo;para sempre&rdquo;.</p>
+        </div>
+        <div class="story-section__carousel">
+          <PreWeddingCarousel
+            client:load
+            images={[
+              '/images/pre-wedding4.jpeg',
+              '/images/pre-wedding1.jpeg',
+              '/images/pre-wedding2.jpeg',
+              '/images/pre-wedding3.jpeg',
+              '/images/pre-wedding5.jpeg',
+              '/images/pre-wedding6.jpeg',
+              '/images/pre-wedding7.jpeg',
+              '/images/pre-wedding8.jpeg',
+              '/images/pre-wedding10.jpeg',
+              '/images/pre-wedding11.jpeg',
+              '/images/pre-wedding12.jpeg',
+              '/images/pre-wedding14.jpeg',
+              '/images/pre-wedding15.jpeg',
+            ]}
+          />
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ── CEREMONY DETAILS ────────────────────────────────────── -->
-  <section id="cerimonia" class="py-20 md:py-28 bg-surface-low">
-    <div class="max-w-5xl mx-auto px-4 md:px-8">
-      <div class="text-center mb-14">
-        <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-3">
-          Cerimônia &amp; Recepção
+  <section id="cerimonia" class="ceremony-section">
+    <div class="ceremony-section__inner">
+      <div class="section-header">
+        <h2 class="section-title">Cerimônia & Recepção</h2>
+      </div>
+
+      <div class="venue-grid">
+        <!-- Ceremony column -->
+        <div class="venue-col">
+          <div class="venue-card">
+            <p class="venue-card__label">Cerimônia</p>
+            <h3 class="venue-card__name">Capela Nossa Senhora do Rosário</h3>
+            <address class="venue-card__address">
+              R. Luís Ferrari, 3-121<br />
+              Parque das Nações, Bauru - SP
+            </address>
+            <div class="venue-card__datetime">
+              <p class="venue-card__day">Sábado, 28 de novembro de 2026</p>
+              <p class="venue-card__time">às 17h00</p>
+            </div>
+          </div>
+          <div class="venue-map">
+            <div class="venue-map__placeholder">
+              <svg class="venue-map__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              <p class="venue-map__label">Mapa em breve</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reception column -->
+        <div class="venue-col">
+          <div class="venue-card">
+            <p class="venue-card__label">Recepção</p>
+            <h3 class="venue-card__name">La Terrasse</h3>
+            <address class="venue-card__address">
+              R. Antônio Padilha Filho 1-16<br />
+              Vila universitária, Bauru - SP
+            </address>
+            <div class="venue-card__datetime">
+              <p class="venue-card__day">Sábado, 28 de novembro de 2026</p>
+              <p class="venue-card__time">às 19h00</p>
+            </div>
+          </div>
+          <div class="venue-map">
+            <div class="venue-map__placeholder">
+              <svg class="venue-map__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              <p class="venue-map__label">Mapa em breve</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="parking-notice">
+        <svg class="parking-notice__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <p class="parking-notice__text">
+          Os locais da cerimônia e da recepção possuem acesso mais restrito para estacionamento. Para maior conforto, sugerimos o uso de transporte por aplicativo.
         </p>
-        <h2 class="font-display text-2xl md:text-3xl text-text">Onde &amp; Quando</h2>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-px bg-border">
-        <!-- Ceremony -->
-        <div class="bg-surface-lowest p-8 md:p-10">
-          <p class="font-body text-[10px] uppercase tracking-[0.25em] text-gold mb-5">
-            Cerimônia
-          </p>
-          <h3 class="font-display text-xl md:text-2xl text-text mb-3">
-            A definir
-          </h3>
-          <address class="not-italic font-body text-sm text-text-muted leading-relaxed">
-            Endereço a confirmar<br />
-            São Paulo – SP
-          </address>
-          <div class="mt-5 pt-5 border-t border-border">
-            <p class="font-body text-sm text-text">Sábado, 28 de novembro de 2026</p>
-            <p class="font-body text-sm text-text-muted mt-1">às 17h00</p>
-          </div>
-        </div>
-
-        <!-- Reception -->
-        <div class="bg-surface-lowest p-8 md:p-10">
-          <p class="font-body text-[10px] uppercase tracking-[0.25em] text-gold mb-5">
-            Recepção
-          </p>
-          <h3 class="font-display text-xl md:text-2xl text-text mb-3">
-            A definir
-          </h3>
-          <address class="not-italic font-body text-sm text-text-muted leading-relaxed">
-            Endereço a confirmar<br />
-            São Paulo – SP
-          </address>
-          <div class="mt-5 pt-5 border-t border-border">
-            <p class="font-body text-sm text-text">Sábado, 28 de novembro de 2026</p>
-            <p class="font-body text-sm text-text-muted mt-1">às 19h00</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Map placeholder -->
-      <div
-        class="mt-px h-64 bg-surface-lowest border-x border-b border-border flex items-center justify-center"
-      >
-        <div class="text-center">
-          <svg
-            class="w-8 h-8 text-text-muted/30 mx-auto mb-3"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg>
-          <p class="font-body text-xs text-text-muted">Mapa em breve</p>
-        </div>
       </div>
     </div>
   </section>
 
   <!-- ── ACCOMMODATION ──────────────────────────────────────── -->
-  <section id="hospedagem" class="py-20 md:py-28 bg-background">
-    <div class="max-w-5xl mx-auto px-4 md:px-8">
-      <div class="text-center mb-14">
-        <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-3">
-          Para os viajantes
-        </p>
-        <h2 class="font-display text-2xl md:text-3xl text-text">Onde se Hospedar</h2>
-        <p class="font-body text-sm text-text-muted mt-4 max-w-xl mx-auto leading-relaxed">
+  <section id="hospedagem" class="accommodation-section">
+    <div class="accommodation-section__inner">
+      <div class="section-header">
+        <h2 class="section-title">Onde se Hospedar</h2>
+        <p class="accommodation-section__subtitle">
           Algumas sugestões de hotéis próximos ao local da festa para tornar
           sua estadia ainda mais confortável.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-px bg-border">
-        {
-          ['Opção 1', 'Opção 2', 'Opção 3'].map((label) => (
-            <div class="bg-surface-lowest p-7">
-              <p class="font-body text-[10px] uppercase tracking-[0.2em] text-gold mb-3">{label}</p>
-              <h3 class="font-display text-lg text-text mb-2">Hotel a definir</h3>
-              <p class="font-body text-sm text-text-muted leading-relaxed">Endereço a confirmar</p>
-              <a
-                href="#"
-                class="inline-block mt-4 font-body text-[10px] uppercase tracking-widest text-primary hover:text-primary-dark transition-colors"
-              >
-                Ver no Maps →
-              </a>
-            </div>
-          ))
-        }
+      <div class="hotel-grid">
+        <div class="hotel-card">
+          <h3 class="hotel-card__name">Hotel Intercity</h3>
+          <p class="hotel-card__address">R. José Antônio Braga, 4-50 - Vila Aviação, Bauru - SP, 17018-540</p>
+          <a href="https://www.google.com/maps/place/hotel+intercity+bauru/data=!4m2!3m1!1s0x94bf6750f0ea5841:0xbff748899f88fd28?sa=X&ved=1t:242&ictx=111" class="hotel-card__link">Ver no Maps →</a>
+        </div>
+        <div class="hotel-card">
+          <h3 class="hotel-card__name">Hotel Blue Tree Towers</h3>
+          <p class="hotel-card__address">R. Júlio de Mesquita Filho, 10-36 - Jardim Panorama, Bauru - SP, 17011-137</p>
+          <a href="https://www.google.com/maps/place/Hotel+Blue+Tree+Towers+Bauru/data=!4m2!3m1!1s0x94ce69913abd47bf:0xaeeafc7447c16174?sa=X&ved=1t:242&ictx=111" class="hotel-card__link">Ver no Maps →</a>
+        </div>
+        <div class="hotel-card">
+          <h3 class="hotel-card__name">Hotel Blue Tree Gardens</h3>
+          <p class="hotel-card__address">R. Dr. Alípio dos Santos, 10-14 - Vila Nova Cidade Universitaria, Bauru - SP, 17011-136</p>
+          <a href="https://www.google.com/maps/place/Blue+Tree+Garden+Bauru/data=!4m2!3m1!1s0x0:0xe6540b6adb454efa?sa=X&ved=1t:2428&ictx=111" class="hotel-card__link">Ver no Maps →</a>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ── GIFT REGISTRY CTA ──────────────────────────────────── -->
-  <section id="presentes" class="py-24 md:py-32 bg-primary text-white text-center">
-    <div class="max-w-2xl mx-auto px-4 md:px-8">
-      <p class="font-body text-[10px] uppercase tracking-[0.35em] text-white/50 mb-5">
-        Um gesto de amor
-      </p>
-      <h2 class="font-display text-3xl md:text-4xl mb-6">Lista de Presentes</h2>
-      <p class="font-body text-sm text-white/60 leading-relaxed mb-10 max-w-md mx-auto">
-        Sua presença é o maior presente. Mas se desejar nos honrar com um gift para
+  <section id="presentes" class="gifts-cta">
+    <div class="gifts-cta__inner">
+      <h2 class="gifts-cta__title">Lista de Presentes</h2>
+      <p class="gifts-cta__text">
+        Sua presença é o maior presente. Mas se desejar nos honrar com um presente para
         celebrar nosso novo começo, preparamos uma seleção especial de itens e
         experiências.
       </p>
-      <a
-        href="/presentes"
-        class="inline-flex items-center gap-2 bg-gold text-white font-body text-[11px] uppercase tracking-[0.2em] px-10 py-4 hover:bg-gold/90 transition-colors duration-200"
-      >
-        Ver Lista de Presentes
-      </a>
+      <a href="/presentes" class="gifts-cta__btn">🎁 Ver Lista de Presentes</a>
+    </div>
+  </section>
+
+  <!-- ── CLOSING MESSAGE ──────────────────────────────────────── -->
+  <section class="closing-section">
+    <div class="closing-section__text">
+      <p class="closing-section__message">
+        Com o coração cheio de alegria, esperamos você para celebrar conosco este dia tão especial.
+      </p>
+    </div>
+    <div class="closing-section__image">
+      <img src="/images/footer.jpeg" alt="Raíssa e Felipe" />
     </div>
   </section>
 
   <!-- ── FOOTER ─────────────────────────────────────────────── -->
-  <footer class="bg-primary-dark text-white py-10 text-center">
-    <p class="font-display text-2xl tracking-widest mb-1">R & F</p>
-    <p class="font-body text-[10px] text-white/30 uppercase tracking-widest">
-      28 · 11 · 2026 · São Paulo
+  <footer class="site-footer">
+    <p class="site-footer__brand">
+      <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
     </p>
-    <nav class="flex justify-center gap-6 mt-6">
-      {
-        [
-          { href: '/presentes', label: 'Presentes' },
-          { href: `${import.meta.env.PUBLIC_FEED_URL ?? '#'}`, label: 'Cápsula do Tempo' },
-        ].map(({ href, label }) => (
-          <a href={href} class="font-body text-[10px] uppercase tracking-widest text-white/40 hover:text-white/70 transition-colors">
-            {label}
-          </a>
-        ))
-      }
-    </nav>
-    <p class="font-body text-[10px] text-white/20 mt-6">
-      © 2026 Raíssa &amp; Felipe. Feito com muito amor.
-    </p>
+    <p class="site-footer__date">28 · 11 · 2026</p>
+    <p class="site-footer__copy">&copy; 2026 Raíssa &amp; Felipe. Feito com muito amor.</p>
   </footer>
 </Layout>
+
+<style lang="scss" is:global>
+  @use '../styles/variables' as v;
+
+  // ── Hero ───────────────────────────────────────────────────────────────────
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(42, 51, 29, 0.5),
+      rgba(64, 74, 50, 0.4),
+      rgba(42, 51, 29, 0.7)
+    );
+  }
+
+  .hero__top {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 7rem 1rem 0;
+    text-align: center;
+
+    @include v.md {
+      padding: 9rem 2rem 0;
+    }
+  }
+
+  .hero__title {
+    font-family: v.$f-imperial;
+    font-size: 8rem;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.025em;
+    line-height: 1.1;
+    white-space: nowrap;
+    color: white;
+
+    @include v.md {
+      font-size: 9.6rem;
+    }
+  }
+
+  .hero__date {
+    font-family: v.$f-body;
+    font-size: 3.2rem;
+    color: white;
+
+    @include v.md {
+      font-size: 4.8rem;
+      margin-top: 0.4rem;
+      margin-left: 1.6rem;
+    }
+  }
+
+  .hero__bottom {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding-bottom: 2.5rem;
+
+    @include v.md { padding-bottom: 3.5rem; }
+  }
+
+  .hero__scroll {
+    opacity: 0.4;
+  }
+
+  // ── Bible section ──────────────────────────────────────────────────────────
+
+  .bible-section {
+    position: relative;
+    background: v.$c-bg;
+  }
+
+  .bible-section__img {
+    width: 100%;
+    max-height: 50vh;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .bible-section__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    background: rgba(42, 51, 29, 0.6);
+  }
+
+  .bible-section__quote {
+    padding: 6.4rem 2.4rem 2.4rem;
+    text-align: center;
+
+    @include v.md {
+      padding-right: 6.4rem;
+      padding-left: 6.4rem;
+    }
+  }
+
+  .bible-section__quote-text {
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+    font-style: italic;
+    line-height: 2.8rem;
+    color: white;
+
+    @include v.md {
+      font-size: 4.8rem;
+      line-height: 1;
+    }
+  }
+
+  .bible-section__quote-cite {
+    display: block;
+    margin-top: 1.2rem;
+    font-family: v.$f-body;
+    font-size: 1.2rem;
+    font-style: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: white;
+  }
+
+  // ── Story section ──────────────────────────────────────────────────────────
+
+  .story-section {
+    background: v.$c-surface-low;
+
+    @include v.md {
+      padding: 4.8rem 2.4rem;
+    }
+  }
+
+  .story-section__inner {
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .story-section__grid {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+
+    @include v.md {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .story-section__text {
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.625;
+    color: v.$c-text;
+
+    p + p {
+      margin-top: 1.6rem;
+    }
+  }
+
+  .story-section__carousel {
+    overflow: hidden;
+  }
+
+  // ── Ceremony section ───────────────────────────────────────────────────────
+
+  .ceremony-section__inner {
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .venue-grid {
+    display: grid;
+    gap: 0.1rem;
+    padding-right: 2.4rem;
+    padding-left: 2.4rem;
+
+    @include v.md {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .venue-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    background: v.$c-border;
+  }
+
+  .venue-card {
+    background: v.$c-surface-lowest;
+    padding: 1.6rem;
+
+    @include v.md {
+      padding: 2.4rem;
+    }
+  }
+
+  .venue-card__label {
+    margin-bottom: 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.25rem;
+    color: v.$c-secondary;
+  }
+
+  .venue-card__name {
+    font-family: v.$f-body;
+    font-size: 1.8rem;
+    color: v.$c-text;
+    margin-bottom: 0.8rem;
+  }
+
+  .venue-card__address {
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    color: v.$c-text;
+  }
+
+  .venue-card__datetime {
+    margin-top: 1.6rem;
+    padding-top: 1.6rem;
+    border-top: 0.1rem solid v.$c-border;
+  }
+
+  .venue-card__day,
+  .venue-card__time {
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    color: v.$c-text;
+  }
+
+  .venue-map {
+    background: v.$c-surface-lowest;
+    height: 13rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .venue-map__placeholder {
+    text-align: center;
+  }
+
+  .venue-map__icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: rgba(69, 72, 63, 0.3);
+    margin: 0 auto 0.5rem;
+  }
+
+  .venue-map__label {
+    font-family: v.$f-body;
+    font-size: 0.75rem;
+    color: v.$c-text-muted;
+  }
+
+  .parking-notice {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin: 1.6rem 1.6rem 1.6rem;
+    padding: 1.6rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 0.1rem solid rgba(212, 175, 55, 0.3);
+  }
+
+  .parking-notice__icon {
+    flex-shrink: 0;
+    width: 2rem;
+    height: 2rem;
+    margin-top: 0.2rem;
+    color: v.$c-gold;
+  }
+
+  .parking-notice__text {
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    color: v.$c-text;
+  }
+
+  // ── Accommodation section ──────────────────────────────────────────────────
+
+  .accommodation-section__inner {
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .accommodation-section__subtitle {
+    max-width: 36rem;
+    margin: 0.8rem auto auto;
+    margin-top: 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: v.$c-text;
+  }
+
+  .hotel-grid {
+    display: grid;
+    gap: 0.1rem;
+    padding-right: 2.4rem;
+    padding-bottom: 2.4rem;
+    padding-left: 2.4rem;
+
+    @include v.md {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .hotel-card {
+    padding: 1.6rem;
+    background: v.$c-surface-lowest;
+  }
+
+  .hotel-card__name {
+    font-family: v.$f-body;
+    font-size: 1.8rem;
+    color: v.$c-text;
+    margin-bottom: 0.8rem;
+  }
+
+  .hotel-card__address {
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    color: v.$c-text;
+  }
+
+  .hotel-card__link {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    text-decoration: underline;
+    letter-spacing: 0.1em;
+    color: v.$c-primary;
+    transition: color 150ms;
+
+    &:hover {
+      color: v.$c-primary-dark;
+    }
+  }
+
+  // ── Gift CTA ───────────────────────────────────────────────────────────────
+
+  .gifts-cta {
+    padding: 4.8rem 2.4rem;
+    background: v.$c-primary;
+    color: white;
+    text-align: center;
+
+    @include v.md {
+      padding: 8rem;
+    }
+  }
+
+  .gifts-cta__inner {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+
+  .gifts-cta__title {
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+
+    @include v.md {
+      font-size: 3.2rem;
+    }
+  }
+
+  .gifts-cta__text {
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    color: white;
+    line-height: 1.25;
+    margin-top: 2.4rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .gifts-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.6rem 2.4rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: v.$c-primary;
+    background: v.$c-primary-light;
+    border: 0;
+    border-radius: 0.4rem;
+    transition: background-color 200ms;
+
+    &:hover {
+      background: v.$c-primary-light;
+    }
+
+    &:focus-visible {
+      outline: 0.2rem solid rgba(0,0,0,.1);
+    }
+  }
+
+  // ── Closing section ────────────────────────────────────────────────────────
+
+  .closing-section {
+    display: grid;
+    background: v.$c-bg;
+
+    @include v.md {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .closing-section__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4.8rem 2.4rem;
+
+    @include v.md {
+      padding: 6.4rem 4.8rem;
+    }
+  }
+
+  .closing-section__message {
+    font-family: v.$f-display;
+    font-style: italic;
+    font-size: 2.4rem;
+    color: v.$c-text;
+    line-height: 1.25;
+    text-align: center;
+
+    @include v.md {
+      font-size: 1.875rem;
+      text-align: left;
+    }
+
+    @include v.lg { font-size: 2.25rem; }
+  }
+
+  .closing-section__image {
+    height: 20rem;
+
+    @include v.md { height: auto; }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  // ── Footer ─────────────────────────────────────────────────────────────────
+
+  .site-footer {
+    background: v.$c-primary-dark;
+    color: white;
+    padding: 2.4rem;
+    text-align: center;
+  }
+
+  .site-footer__brand {
+    font-family: v.$f-display;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.25rem;
+  }
+
+  .site-footer__date {
+    font-family: v.$f-body;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .site-footer__nav {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .site-footer__nav-link {
+    font-family: v.$f-body;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 150ms;
+
+    &:hover { color: rgba(255, 255, 255, 0.7); }
+  }
+
+  .site-footer__copy {
+    font-family: v.$f-body;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 1.5rem;
+  }
+</style>
+

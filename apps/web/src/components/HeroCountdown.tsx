@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import styles from './HeroCountdown.module.scss'
 
 // Wedding date: November 28, 2026 at 1:00 PM Brasília time
 const WEDDING_DATE = new Date('2026-11-28T13:00:00-03:00')
@@ -34,29 +35,22 @@ const LABELS: Record<string, string> = {
 }
 
 export function HeroCountdown() {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null)
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => getTimeLeft())
 
   useEffect(() => {
-    setTimeLeft(getTimeLeft())
     const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000)
     return () => clearInterval(timer)
   }, [])
-
-  if (!timeLeft) return null
 
   const { days, hours, minutes, seconds } = timeLeft
   const isPast = days === 0 && hours === 0 && minutes === 0 && seconds === 0
 
   if (isPast) {
-    return (
-      <p className="font-display text-2xl italic text-white/90">
-        O grande dia chegou! ✨
-      </p>
-    )
+    return <p className={styles.message}>O grande dia chegou! ✨</p>
   }
 
   return (
-    <div className="flex items-start gap-3 md:gap-5">
+    <div className={styles.countdown}>
       {(
         [
           { value: days, key: 'days' },
@@ -65,22 +59,16 @@ export function HeroCountdown() {
           { value: seconds, key: 'seconds' },
         ] as const
       ).map(({ value, key }, i) => (
-        <div key={key} className="flex items-start">
-          <div className="flex flex-col items-center">
-            <div className="backdrop-blur-sm bg-white/10 border border-white/20 px-3 py-2 md:px-5 md:py-3 min-w-[52px] md:min-w-[68px] text-center">
-              <span className="font-display text-2xl md:text-4xl font-bold text-white tabular-nums">
+        <div key={key} className={styles.item}>
+          <div className={styles.unit}>
+            <div className={styles.box}>
+              <span className={styles.value}>
                 {String(value).padStart(2, '0')}
               </span>
             </div>
-            <span className="mt-1.5 font-body text-[10px] uppercase tracking-[0.15em] text-white/60">
-              {LABELS[key]}
-            </span>
+            <span className={styles.label}>{LABELS[key]}</span>
           </div>
-          {i < 3 && (
-            <span className="font-display text-xl md:text-3xl text-white/50 mt-1.5 md:mt-2 ml-3 md:ml-5">
-              ·
-            </span>
-          )}
+          {i < 3 && <span className={styles.separator}>·</span>}
         </div>
       ))}
     </div>

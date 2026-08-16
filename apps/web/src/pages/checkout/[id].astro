@@ -45,36 +45,110 @@ function formatBRL(cents: number) {
 >
   <Header />
 
-  <main class="pt-20 min-h-screen bg-background">
-    <div class="max-w-2xl mx-auto px-4 md:px-8 py-12 md:py-20">
-      <!-- Back link -->
-      <a
-        href="/presentes"
-        class="inline-flex items-center gap-2 font-body text-xs uppercase tracking-widest text-text-muted hover:text-text transition-colors mb-10"
-      >
+  <main class="checkout-page">
+    <div class="checkout-page__inner">
+      <a href="/presentes" class="checkout-back">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <polyline points="15 18 9 12 15 6" />
         </svg>
         Voltar para a lista
       </a>
 
-      <!-- Section title -->
-      <div class="mb-8">
-        <p class="font-body text-[10px] uppercase tracking-[0.35em] text-text-muted mb-2">
-          Presente selecionado
-        </p>
-        <h1 class="font-display text-2xl md:text-3xl text-text">{gift.name}</h1>
-        <p class="font-body text-xl text-gold font-medium mt-2">{formatBRL(gift.price_cents)}</p>
+      <div class="checkout-header">
+        <p class="checkout-header__eyebrow">Presente selecionado</p>
+        <h1 class="checkout-header__title">{gift.name}</h1>
+        <p class="checkout-header__price">{formatBRL(gift.price_cents)}</p>
       </div>
 
-      <!-- Checkout form (React island) -->
       <CheckoutForm client:load gift={gift} />
     </div>
   </main>
 
-  <footer class="bg-primary-dark text-white py-8 text-center">
-    <a href="/" class="font-display text-lg tracking-widest text-white hover:text-gold transition-colors">
-      R & F
-    </a>
+  <footer class="simple-footer">
+    <a href="/" class="simple-footer__logo">R &amp; F</a>
   </footer>
 </Layout>
+
+<style lang="scss" is:global>
+  @use '../../styles/variables' as v;
+
+  .checkout-page {
+    padding-top: 64px;
+    min-height: 100vh;
+    background: v.$c-bg;
+
+    @include v.md { padding-top: 80px; }
+
+    &__inner {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+
+      @include v.md { padding: 5rem 2rem; }
+    }
+  }
+
+  .checkout-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: v.$f-body;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: v.$c-text-muted;
+    margin-bottom: 2.5rem;
+    transition: color 150ms;
+
+    &:hover { color: v.$c-text; }
+  }
+
+  .checkout-header {
+    margin-bottom: 2rem;
+
+    &__eyebrow {
+      font-family: v.$f-body;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      color: v.$c-text-muted;
+      margin-bottom: 0.5rem;
+    }
+
+    &__title {
+      font-family: v.$f-display;
+      font-size: 1.5rem;
+      color: v.$c-text;
+
+      @include v.md { font-size: 1.875rem; }
+    }
+
+    &__price {
+      font-family: v.$f-body;
+      font-size: 1.25rem;
+      color: v.$c-gold;
+      font-weight: 500;
+      margin-top: 0.5rem;
+    }
+  }
+
+  // simple-footer is shared — defined in presentes.astro styles,
+  // but since styles are global in Astro they carry over.
+  // Redefine here for safety.
+  .simple-footer {
+    background: v.$c-primary-dark;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+
+    &__logo {
+      font-family: v.$f-display;
+      font-size: 1.125rem;
+      letter-spacing: 0.1em;
+      color: white;
+      transition: color 150ms;
+
+      &:hover { color: v.$c-gold; }
+    }
+  }
+</style>

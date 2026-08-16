@@ -1,0 +1,78 @@
+@use '../styles/variables' as v;
+
+.countdown {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+
+  @include v.md {
+    gap: 1.6rem;
+  }
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.box {
+  min-width: 4.8rem;
+  padding: 0.8rem 1.6rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 0.1rem solid rgba(255, 255, 255, 0.2);
+
+  @include v.md {
+    min-width: 6.4rem;
+  }
+}
+
+.value {
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: white;
+  font-variant-numeric: tabular-nums;
+
+  @include v.md {
+    font-size: 2.4rem;
+  }
+}
+
+.label {
+  margin-top: 0.8rem;
+  font-family: v.$f-body;
+  font-size: 1.2rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.separator {
+  font-family: v.$f-display;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.8rem;
+  margin-left: 0.8rem;
+
+  @include v.md {
+    font-size: 2.4rem;
+    margin-top: 0.4rem;
+    margin-left: 1.6rem;
+  }
+}
+
+.message {
+  font-family: v.$f-display;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+}
