@@ -19,8 +19,10 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.6rem;
+  max-width: 80rem;
+  margin-right: auto;
+  margin-left: auto;
   padding: 1.6rem;
-  background: v.$c-border;
 
   @include v.lg {
     grid-template-columns: repeat(3, 1fr);

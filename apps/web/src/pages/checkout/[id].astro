@@ -1,41 +1,42 @@
 ---
-export const prerender = false
+export const prerender = false;
 
-import Layout from '../../layouts/Layout.astro'
-import Header from '../../components/Header.astro'
-import { CheckoutForm } from '../../components/CheckoutForm'
-import type { Gift } from '@wedding/supabase'
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { CheckoutForm } from '../../components/CheckoutForm';
+import type { Gift } from '@wedding/supabase';
 
-const { id } = Astro.params
+const { id } = Astro.params;
 
-let gift: Gift | null = null
+let gift: Gift | null = null;
 
 if (!id) {
-  return Astro.redirect('/presentes')
+  return Astro.redirect('/presentes');
 }
 
 if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
   try {
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY)
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY);
     const { data } = await supabase
       .from('gifts')
       .select('*')
       .eq('id', id)
       .eq('is_available', true)
-      .single()
-    gift = data
+      .single();
+    gift = data;
   } catch {
     // Supabase not configured yet
   }
 }
 
 if (!gift) {
-  return Astro.redirect('/presentes')
+  return Astro.redirect('/presentes');
 }
 
 function formatBRL(cents: number) {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100)
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
 }
 ---
 
@@ -45,110 +46,58 @@ function formatBRL(cents: number) {
 >
   <Header />
 
-  <main class="checkout-page">
-    <div class="checkout-page__inner">
-      <a href="/presentes" class="checkout-back">
+  <main class="checkout">
+    <div class="checkout__header">
+      <a
+        class="checkout__back"
+        href="/presentes"
+      >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <polyline points="15 18 9 12 15 6" />
         </svg>
         Voltar para a lista
       </a>
-
-      <div class="checkout-header">
-        <p class="checkout-header__eyebrow">Presente selecionado</p>
-        <h1 class="checkout-header__title">{gift.name}</h1>
-        <p class="checkout-header__price">{formatBRL(gift.price_cents)}</p>
-      </div>
-
+    </div>
+    <div class="checkout__content">
       <CheckoutForm client:load gift={gift} />
     </div>
+    <Footer />
   </main>
-
-  <footer class="simple-footer">
-    <a href="/" class="simple-footer__logo">R &amp; F</a>
-  </footer>
 </Layout>
 
 <style lang="scss" is:global>
   @use '../../styles/variables' as v;
 
-  .checkout-page {
-    padding-top: 64px;
+  .checkout {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
-    background: v.$c-bg;
-
-    @include v.md { padding-top: 80px; }
-
-    &__inner {
-      max-width: 42rem;
-      margin: 0 auto;
-      padding: 3rem 1rem;
-
-      @include v.md { padding: 5rem 2rem; }
-    }
   }
 
-  .checkout-back {
+  .checkout__header {
+    padding: 10.4rem 2.4rem 2.4rem;
+    background: v.$c-primary-dark;
+  }
+
+  .checkout__back {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     font-family: v.$f-body;
-    font-size: 0.75rem;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: v.$c-text-muted;
-    margin-bottom: 2.5rem;
+    color: white;
     transition: color 150ms;
 
-    &:hover { color: v.$c-text; }
-  }
-
-  .checkout-header {
-    margin-bottom: 2rem;
-
-    &__eyebrow {
-      font-family: v.$f-body;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.35em;
-      color: v.$c-text-muted;
-      margin-bottom: 0.5rem;
-    }
-
-    &__title {
-      font-family: v.$f-display;
-      font-size: 1.5rem;
-      color: v.$c-text;
-
-      @include v.md { font-size: 1.875rem; }
-    }
-
-    &__price {
-      font-family: v.$f-body;
-      font-size: 1.25rem;
-      color: v.$c-gold;
-      font-weight: 500;
-      margin-top: 0.5rem;
+    &:hover {
+      text-decoration: underline;
     }
   }
 
-  // simple-footer is shared — defined in presentes.astro styles,
-  // but since styles are global in Astro they carry over.
-  // Redefine here for safety.
-  .simple-footer {
-    background: v.$c-primary-dark;
-    color: white;
-    padding: 2rem 1rem;
-    text-align: center;
-
-    &__logo {
-      font-family: v.$f-display;
-      font-size: 1.125rem;
-      letter-spacing: 0.1em;
-      color: white;
-      transition: color 150ms;
-
-      &:hover { color: v.$c-gold; }
-    }
+  .checkout__content {
+    flex: 1;
+    padding: 2.4rem;
   }
 </style>

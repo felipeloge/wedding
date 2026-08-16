@@ -3,6 +3,7 @@ export const prerender = false;
 
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import { GiftGrid } from '../components/GiftGrid';
 import type { Gift } from '@wedding/supabase';
 
@@ -41,12 +42,7 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
       <GiftGrid client:load gifts={gifts} />
     </section>
   </main>
-  <footer class="gifts__footer">
-    <a href="/" class="gifts__logo">
-      <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
-    </a>
-    <div class="gifts__date">28.11.2026</div>
-  </footer>
+  <Footer />
 </Layout>
 
 <style lang="scss" is:global>
@@ -74,32 +70,6 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
   }
 
   .gifts__content {
-    max-width: 80rem;
-    margin-right: auto;
-    margin-left: auto;
-  }
-
-  .gifts__footer {
-    background: v.$c-primary-dark;
-    color: white;
-    padding: 2.5rem 1rem;
-    text-align: center;
-  }
-
-  .gifts__footer__logo {
-    font-family: v.$f-display;
-    font-size: 1.25rem;
-    letter-spacing: 0.1em;
-    color: white;
-    transition: color 150ms;
-  }
-
-  .gifts__footer__date {
-    font-family: v.$f-body;
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 0.25rem;
+    background: v.$c-border;
   }
 </style>

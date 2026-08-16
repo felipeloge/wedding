@@ -1,0 +1,37 @@
+---
+---
+
+<footer class="site-footer">
+    <div class="site-footer__brand">
+        <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
+    </div>
+    <div class="site-footer__date">28 · 11 · 2026</div>
+</footer>
+
+<style lang="scss" is:global>
+  @use '../styles/variables' as v;
+
+  .site-footer {
+    padding: 2.4rem;
+    background: v.$c-primary-dark;
+    color: white;
+    text-align: center;
+  }
+
+  .site-footer__brand {
+    text-align: center;
+
+    img {
+      display: inline-block;
+      height: 4.8rem;
+    }
+  }
+
+  .site-footer__date {
+    margin-top: 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    color: white;
+    letter-spacing: 0.1em;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import Footer from '../components/Header.astro';
 import { HeroCountdown } from '../components/HeroCountdown';
 import { PreWeddingCarousel } from '../components/PreWeddingCarousel';
 // Side-effect imports: force CSS module extraction into the bundle
@@ -214,7 +215,7 @@ import '../components/HeroCountdown.module.scss';
         celebrar nosso novo começo, preparamos uma seleção especial de itens e
         experiências.
       </p>
-      <a href="/presentes" class="gifts-cta__btn">🎁 Ver Lista de Presentes</a>
+      <a href="/presentes" class="gifts-cta__button">🎁 Ver Lista de Presentes</a>
     </div>
   </section>
 
@@ -231,12 +232,7 @@ import '../components/HeroCountdown.module.scss';
   </section>
 
   <!-- ── FOOTER ─────────────────────────────────────────────── -->
-  <footer class="site-footer">
-    <div class="site-footer__brand">
-      <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
-    </div>
-    <div class="site-footer__date">28 · 11 · 2026</div>
-  </footer>
+  <Footer />
 </Layout>
 
 <style lang="scss" is:global>
@@ -663,11 +659,11 @@ import '../components/HeroCountdown.module.scss';
     margin-bottom: 2.4rem;
   }
 
-  .gifts-cta__btn {
+  .gifts-cta__button {
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
-    padding: 1.6rem 2.4rem;
+    padding: 1.2rem 2.4rem;
     font-family: v.$f-body;
     font-size: 1.6rem;
     font-weight: 500;
@@ -685,7 +681,7 @@ import '../components/HeroCountdown.module.scss';
     }
 
     &:focus-visible {
-      outline: 0.2rem solid rgba(0,0,0,.1);
+      outline: 0.2rem solid rgba(0, 0, 0, .1);
     }
   }
 
@@ -738,31 +734,5 @@ import '../components/HeroCountdown.module.scss';
       object-fit: cover;
       object-position: center;
     }
-  }
-
-  // ── Footer ─────────────────────────────────────────────────────────────────
-
-  .site-footer {
-    padding: 2.4rem;
-    background: v.$c-primary-dark;
-    color: white;
-    text-align: center;
-  }
-
-  .site-footer__brand {
-    text-align: center;
-
-    img {
-      display: inline-block;
-      height: 4.8rem;
-    }
-  }
-
-  .site-footer__date {
-    margin-top: 0.8rem;
-    font-family: v.$f-body;
-    font-size: 1.4rem;
-    color: white;
-    letter-spacing: 0.1em;
   }
 </style>

@@ -41,54 +41,68 @@ export function CheckoutForm({ gift }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.summary}>
-        <p className={styles.summaryLabel}>Resumo do presente</p>
-        <div className={styles.summaryContent}>
-          {gift.image_url && (
-            <div className={styles.summaryImgWrap}>
-              <img src={gift.image_url} alt={gift.name} className={styles.summaryImg} />
+    <form
+      className={styles.CheckoutForm}
+      onSubmit={handleSubmit}
+    >
+      <div className={styles.CheckoutSummary}>
+        <p className={styles.CheckoutSummaryLabel}>Resumo do presente</p>
+        <div className={styles.CheckoutSummaryContent}>
+          {gift.image_url ? (
+            <div className={styles.CheckoutSummaryImgWrap}>
+              <img
+                className={styles.CheckoutSummaryImg}
+                src={gift.image_url}
+                alt={gift.name}
+              />
             </div>
-          )}
-          <div className={styles.summaryInfo}>
-            <h3 className={styles.summaryName}>{gift.name}</h3>
-            {gift.description && (
-              <p className={styles.summaryDesc}>{gift.description}</p>
-            )}
-            <p className={styles.summaryPrice}>{formatBRL(gift.price_cents)}</p>
+          ) : null}
+          <div className={styles.CheckoutSummaryInfo}>
+            <h3 className={styles.CheckoutSummaryName}>
+              {gift.name}
+            </h3>
+            <p className={styles.CheckoutSummaryPrice}>
+              {formatBRL(gift.price_cents)}
+            </p>
           </div>
         </div>
       </div>
 
-      <div className={styles.messageField}>
-        <label htmlFor="message" className={styles.messageLabel}>
+      <div className={styles.CheckoutMessage}>
+        <label htmlFor="message" className={styles.CheckoutMessageLabel}>
           Mensagem para os noivos{' '}
           <span>(opcional)</span>
         </label>
         <textarea
+          className={styles.CheckoutMessageInput}
           id="message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
           maxLength={500}
           rows={4}
-          placeholder="Deixe uma mensagem especial para Raíssa e Felipe…"
-          className={styles.textarea}
+          placeholder="Deixe uma mensagem especial para Raíssa e Felipe..."
+          onChange={(ev) => setMessage(ev.target.value)}
         />
-        <p className={styles.charCount}>{message.length}/500</p>
+        <p className={styles.CheckoutMessageCharCount}>{message.length}/500</p>
       </div>
 
-      {error && <p className={styles.error}>{error}</p>}
+      {error ? (
+        <p className={styles.CheckoutError}>{error}</p>
+      ) : null}
 
-      <button type="submit" disabled={loading} className={styles.submitBtn}>
+      <button
+        className={styles.CheckoutSubmitButton}
+        type="submit"
+        disabled={loading}
+      >
         {loading ? 'Aguarde…' : 'Ir para o pagamento →'}
       </button>
 
-      <div className={styles.secure}>
+      <div className={styles.CheckoutSecureMessage}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
           <path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
-        <span>Pagamento seguro e criptografado via Stripe</span>
+        <span>Pagamento seguro e criptografado via Stripe.</span>
       </div>
     </form>
   )
