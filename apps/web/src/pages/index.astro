@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import Header from '../components/Header.astro'
-import { HeroCountdown } from '../components/HeroCountdown'
-import { PreWeddingCarousel } from '../components/PreWeddingCarousel'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import { HeroCountdown } from '../components/HeroCountdown';
+import { PreWeddingCarousel } from '../components/PreWeddingCarousel';
 // Side-effect imports: force CSS module extraction into the bundle
-import '../components/HeroCountdown.module.scss'
+import '../components/HeroCountdown.module.scss';
 ---
 
 <Layout title="Raíssa & Felipe | 28.11.2026" description="Celebre conosco o nosso casamento em 28 de novembro de 2026.">
@@ -232,10 +232,10 @@ import '../components/HeroCountdown.module.scss'
 
   <!-- ── FOOTER ─────────────────────────────────────────────── -->
   <footer class="site-footer">
-    <p class="site-footer__brand">
+    <div class="site-footer__brand">
       <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
-    </p>
-    <p class="site-footer__date">28 · 11 · 2026</p>
+    </div>
+    <div class="site-footer__date">28 · 11 · 2026</div>
   </footer>
 </Layout>
 

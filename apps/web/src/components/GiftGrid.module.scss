@@ -2,35 +2,25 @@
 
 // ─── Empty state ──────────────────────────────────────────────────────────────
 
-.empty {
+.GridEmpty {
+  padding: 4.8rem 0;
   text-align: center;
-  padding: 5rem 0;
 }
 
-.emptyTitle {
-  font-family: v.$f-display;
-  font-size: 1.25rem;
-  color: v.$c-text-muted;
-}
-
-.emptyText {
+.GridEmptyMessage {
   font-family: v.$f-body;
-  font-size: 0.875rem;
-  color: v.$c-text-muted;
-  margin-top: 0.5rem;
+  font-size: 1.6rem;
+  color: v.$c-text;
 }
 
 // ─── Grid ─────────────────────────────────────────────────────────────────────
 
-.grid {
+.Grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+  padding: 1.6rem;
   background: v.$c-border;
-
-  @include v.sm {
-    grid-template-columns: repeat(2, 1fr);
-  }
 
   @include v.lg {
     grid-template-columns: repeat(3, 1fr);
@@ -39,97 +29,75 @@
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
 
-.card {
-  background: v.$c-surface-lowest;
+.Card {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  background: v.$c-surface-lowest;
+  border-radius: 0.8rem;
 }
 
-.imageWrap {
+.CardImageWrap {
   aspect-ratio: 4 / 3;
   overflow: hidden;
   background: v.$c-surface-low;
 }
 
-.img {
+.CardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 700ms ease-out;
 
-  .card:hover & {
+  .Card:hover & {
     transform: scale(1.05);
   }
 }
 
-.imgPlaceholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom right, v.$c-surface-low, v.$c-surface);
-}
-
-.imgPlaceholderText {
-  font-family: v.$f-display;
-  font-size: 2.25rem;
-  color: rgba(69, 72, 63, 0.2);
-  user-select: none;
-}
-
-.body {
-  padding: 1.5rem;
+.CardContent {
   display: flex;
   flex-direction: column;
+  gap: 1.6rem;
   flex: 1;
+  padding: 1.2rem 1.6rem;
 }
 
-.title {
-  font-family: v.$f-display;
-  font-size: 1.125rem;
+.CardTitle {
+  flex: 1;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
   color: v.$c-text;
-  line-height: 1.375;
-  margin-bottom: 0.25rem;
 }
 
-.desc {
-  font-family: v.$f-body;
-  font-size: 0.875rem;
-  color: v.$c-text-muted;
-  line-height: 1.625;
-  margin-bottom: 1rem;
-  flex: 1;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.footer {
+.CardFooter {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: space-between;
-  margin-top: auto;
-  padding-top: 1rem;
-  border-top: 1px solid v.$c-border;
+  gap: 1.6rem;
 }
 
-.price {
+.CardItemPrice {
   font-family: v.$f-body;
-  font-size: 1rem;
-  color: v.$c-primary;
+  font-size: 1.8rem;
   font-weight: 500;
+  line-height: 2rem;
+  text-align: center;
+  color: v.$c-primary;
 }
 
-.buyBtn {
+.CardButton {
+  padding: 0.8rem 1.6rem;
   font-family: v.$f-body;
-  font-size: 0.75rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.25;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  text-align: center;
   color: white;
   background: v.$c-primary;
-  padding: 0.625rem 1.25rem;
+  border: 0;
+  border-radius: 0.4rem;
   transition: background-color 200ms;
 
   &:hover {

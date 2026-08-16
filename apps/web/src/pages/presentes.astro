@@ -1,22 +1,21 @@
 ---
-export const prerender = false
+export const prerender = false;
 
-import Layout from '../layouts/Layout.astro'
-import Header from '../components/Header.astro'
-import { GiftGrid } from '../components/GiftGrid'
-import type { Gift } from '@wedding/supabase'
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import { GiftGrid } from '../components/GiftGrid';
+import type { Gift } from '@wedding/supabase';
 
-let gifts: Gift[] = []
+let gifts: Gift[] = [];
 
 if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
   try {
-    const { createClient } = await import('@supabase/supabase-js')
-    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY)
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY);
     const { data } = await supabase
       .from('gifts')
       .select('*')
-      .eq('is_available', true)
-      .order('created_at', { ascending: false })
+      .order('price_cents', { ascending: true });
     gifts = data ?? []
   } catch {
     // Supabase not configured yet — show empty state
@@ -29,112 +28,78 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
   description="Selecione um presente especial para Raíssa e Felipe. Pagamento seguro via Stripe."
 >
   <Header />
-
-  <main class="gifts-page-main">
-    <!-- Page header -->
-    <div class="gifts-page-header">
-    <p class="gifts-page-header__eyebrow">Comemore conosco</p>
-      <h1 class="gifts-page-header__title">Nossa Lista de Presentes</h1>
-      <p class="gifts-page-header__subtitle">
-        Sua presença é o maior presente. Mas se desejar nos honrar com um gift,
-        escolha algo que tornará nossa nova vida ainda mais especial.
+  <main class="gifts">
+    <div class="gifts__header">
+      <h1 class="gifts__title">Lista de Presentes</h1>
+      <p class="gifts__description">
+        Sua presença é o maior presente. Mas se desejar nos honrar com um presente para
+        celebrar nosso novo começo, preparamos uma seleção especial de itens e
+        experiências.
       </p>
     </div>
-
-    <!-- Gift grid -->
-    <section class="gifts-page-section">
-      <div class="gifts-page-section__inner">
-        <GiftGrid client:load gifts={gifts} />
-      </div>
+    <section class="gifts__content">
+      <GiftGrid client:load gifts={gifts} />
     </section>
   </main>
-
-  <footer class="simple-footer">
-    <a href="/" class="simple-footer__logo">R &amp; F</a>
-    <p class="simple-footer__date">28.11.2026</p>
+  <footer class="gifts__footer">
+    <a href="/" class="gifts__logo">
+      <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
+    </a>
+    <div class="gifts__date">28.11.2026</div>
   </footer>
 </Layout>
 
 <style lang="scss" is:global>
   @use '../styles/variables' as v;
 
-  .gifts-page-main {
-    padding-top: 64px;
-
-    @include v.md { padding-top: 80px; }
-  }
-
-  .gifts-page-header {
+  .gifts__header {
+    padding: 10.4rem 1.6rem 4rem;
     background: v.$c-primary-dark;
-    color: white;
-    padding: 5rem 1rem;
     text-align: center;
-
-    @include v.md { padding: 7rem 1rem; }
-
-    &__eyebrow {
-      font-family: v.$f-body;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.35em;
-      color: rgba(255, 255, 255, 0.5);
-      margin-bottom: 1rem;
-    }
-
-    &__title {
-      font-family: v.$f-display;
-      font-size: 1.875rem;
-
-      @include v.md { font-size: 3rem; }
-    }
-
-    &__subtitle {
-      font-family: v.$f-body;
-      font-size: 0.875rem;
-      color: rgba(255, 255, 255, 0.6);
-      margin-top: 1rem;
-      max-width: 28rem;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.625;
-    }
+    color: white;
   }
 
-  .gifts-page-section {
-    background: v.$c-bg;
-    padding: 4rem 1rem;
-
-    @include v.md { padding: 5rem 2rem; }
-
-    &__inner {
-      max-width: 72rem;
-      margin: 0 auto;
-    }
+  .gifts__title {
+    font-family: v.$f-display;
+    font-size: 2.4rem;
   }
 
-  .simple-footer {
+  .gifts__description {
+    max-width: 48rem;
+    margin: 1.6rem auto auto;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: white;
+  }
+
+  .gifts__content {
+    max-width: 80rem;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .gifts__footer {
     background: v.$c-primary-dark;
     color: white;
     padding: 2.5rem 1rem;
     text-align: center;
+  }
 
-    &__logo {
-      font-family: v.$f-display;
-      font-size: 1.25rem;
-      letter-spacing: 0.1em;
-      color: white;
-      transition: color 150ms;
+  .gifts__footer__logo {
+    font-family: v.$f-display;
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    color: white;
+    transition: color 150ms;
+  }
 
-      &:hover { color: v.$c-gold; }
-    }
-
-    &__date {
-      font-family: v.$f-body;
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-top: 0.25rem;
-    }
+  .gifts__footer__date {
+    font-family: v.$f-body;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.25rem;
   }
 </style>
