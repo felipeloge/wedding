@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import styles from './HeroCountdown.module.scss'
 
 // Wedding date: November 28, 2026 at 1:00 PM Brasília time
-const WEDDING_DATE = new Date('2026-11-28T13:00:00-03:00')
+const WEDDING_DATE = new Date('2026-11-28T17:00:00-03:00')
 
 interface TimeLeft {
   days: number

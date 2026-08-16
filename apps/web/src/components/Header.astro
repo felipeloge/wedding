@@ -26,38 +26,45 @@
   </div>
 </header>
 
-<div id="mobile-menu" class="mobile-menu" aria-hidden="true">
-  <button id="menu-close" class="mobile-menu__close" aria-label="Fechar menu">
+<div
+  class="sidemenu"
+  id="sidemenu"
+  aria-hidden="true"
+>
+  <button
+    class="sidemenu__close"
+    id="menu-close"
+    aria-label="Fechar menu"
+  >
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
   </button>
-
-  <div class="mobile-menu__brand">R & F</div>
-
-  <nav class="mobile-menu__nav">
+  <div class="sidemenu__brand">
+    <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
+  </div>
+  <nav class="sidemenu__nav">
     {
       [
         { href: '/#inicio', label: 'Início' },
-        { href: '/#fotos', label: 'Fotos' },
+        { href: '/#historia', label: 'Nossa História' },
         { href: '/#cerimonia', label: 'Cerimônia' },
         { href: '/#hospedagem', label: 'Hospedagem' },
         { href: '/presentes', label: 'Lista de Presentes' },
       ].map(({ href, label }) => (
-        <a href={href} class="mobile-menu__link menu-link">{label}</a>
+        <a href={href} class="sidemenu__link menu-link">{label}</a>
       ))
     }
   </nav>
-
-  <p class="mobile-menu__date">28.11.2026</p>
+  <span class="sidemenu__date">28.11.2026</span>
 </div>
 
 <script>
   const header = document.getElementById('site-header')
   const menuToggle = document.getElementById('menu-toggle')
   const menuClose = document.getElementById('menu-close')
-  const mobileMenu = document.getElementById('mobile-menu')
+  const mobileMenu = document.getElementById('sidemenu')
 
   // Sticky header on scroll
   let ticking = false
@@ -83,6 +90,8 @@
     mobileMenu?.classList.add('open')
     mobileMenu?.setAttribute('aria-hidden', 'false')
     menuToggle?.setAttribute('aria-expanded', 'true')
+    menuToggle?.style.setProperty('visibility', 'hidden')
+    menuToggle?.style.setProperty('pointer-events', 'none')
     document.body.style.overflow = 'hidden'
   }
 
@@ -90,10 +99,18 @@
     mobileMenu?.classList.remove('open')
     mobileMenu?.setAttribute('aria-hidden', 'true')
     menuToggle?.setAttribute('aria-expanded', 'false')
+    menuToggle?.style.removeProperty('visibility')
+    menuToggle?.style.removeProperty('pointer-events')
     document.body.style.overflow = ''
   }
 
-  menuToggle?.addEventListener('click', openMenu)
+  menuToggle?.addEventListener('click', () => {
+    if (mobileMenu?.classList.contains('open')) {
+      closeMenu()
+    } else {
+      openMenu()
+    }
+  })
   menuClose?.addEventListener('click', closeMenu)
 
   // Close on nav link click
@@ -102,8 +119,8 @@
   })
 
   // Close on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeMenu()
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') closeMenu()
   })
 </script>
 
@@ -113,8 +130,8 @@
   .site-header {
     position: fixed;
     top: 0;
-    left: 0;
     right: 0;
+    left: 0;
     z-index: 50;
     transition: background-color 500ms, border-color 500ms, box-shadow 500ms;
 
@@ -124,132 +141,115 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
     }
+  }
 
-    &__inner {
-      padding: 0 1rem;
-      max-width: 1280px;
-      margin: 0 auto;
+  .site-header__inner {
+    max-width: 128rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
 
-      @include v.md {
-        padding: 0 2rem;
-      }
-    }
+  .site-header__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 6.4rem;
+  }
 
-    &__row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
+  .site-header__spacer {
+    width: 4rem;
+  }
 
-      @include v.md {
-        height: 80px;
-      }
-    }
-
-    &__spacer {
-      width: 40px;
-
-      @include v.md {
-        width: 48px;
-      }
-    }
-
-    &__logo {
-      transition: opacity 300ms;
-
-      &:hover {
-        opacity: 0.8;
-      }
-
-      img {
-        height: 32px;
-        width: auto;
-
-        @include v.md {
-          height: 40px;
-        }
-      }
-    }
-
-    &__toggle {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      transition: color 300ms;
-
-      &:hover {
-        color: rgba(255, 255, 255, 0.8);
-      }
+  .site-header__logo {
+    img {
+      width: auto;
+      height: 3.2rem;
     }
   }
 
-  .mobile-menu {
+  .site-header__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    color: white;
+    transition: transform 200ms;
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+
+  .sidemenu {
     position: fixed;
     inset: 0;
-    z-index: 40;
-    background: v.$c-primary-dark;
+    z-index: 60;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    background: v.$c-primary-dark;
     transform: translateX(100%);
     transition: transform 500ms ease-in-out;
 
     &.open {
       transform: translateX(0);
     }
+  }
 
-    &__close {
-      position: absolute;
-      top: 1.25rem;
-      right: 1rem;
-      color: rgba(255, 255, 255, 0.6);
-      padding: 0.5rem;
-      transition: color 200ms;
+  .sidemenu__close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1rem;
+    padding: 0.8rem;
+    line-height: 0;
+    color: white;
+    transition: transform 200ms;
 
-      &:hover {
-        color: white;
-      }
+    &:hover {
+      transform: scale(1.25);
     }
+  }
 
-    &__brand {
-      font-family: v.$f-display;
-      font-size: 1.875rem;
-      color: white;
-      letter-spacing: 0.1em;
-      text-align: center;
-      margin-bottom: 2.5rem;
+  .sidemenu__brand {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6.4rem;
+
+    img {
+      height: 3.2rem;
     }
+  }
 
-    &__nav {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
+  .sidemenu__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .sidemenu__link {
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+    line-height: 2.8rem;
+    color: white;
+    transition: color 200ms;
+
+    &:hover {
+      text-decoration: underline;
     }
+  }
 
-    &__link {
-      font-family: v.$f-display;
-      font-size: 1.5rem;
-      color: white;
-      transition: color 200ms;
-
-      &:hover {
-        color: v.$c-gold;
-      }
-    }
-
-    &__date {
-      position: absolute;
-      bottom: 2rem;
-      font-family: v.$f-body;
-      font-size: 0.75rem;
-      color: rgba(255, 255, 255, 0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
+  .sidemenu__date {
+    position: absolute;
+    bottom: 2rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    color: white;
+    letter-spacing: 0.1em;
   }
 </style>

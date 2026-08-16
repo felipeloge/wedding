@@ -96,21 +96,32 @@ import '../components/HeroCountdown.module.scss'
             <p class="venue-card__label">Cerimônia</p>
             <h3 class="venue-card__name">Capela Nossa Senhora do Rosário</h3>
             <address class="venue-card__address">
-              R. Luís Ferrari, 3-121<br />
-              Parque das Nações, Bauru - SP
+              <svg width="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>
+                R. Luís Ferrari, 3-121<br />
+                Parque das Nações, Bauru - SP
+              </span>
             </address>
             <div class="venue-card__datetime">
-              <p class="venue-card__day">Sábado, 28 de novembro de 2026</p>
-              <p class="venue-card__time">às 17h00</p>
+              <svg width="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span class="venue-card__time">17:00</span>
             </div>
           </div>
           <div class="venue-map">
-            <div class="venue-map__placeholder">
-              <svg class="venue-map__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-              </svg>
-              <p class="venue-map__label">Mapa em breve</p>
-            </div>
+            <iframe
+              src="https://maps.google.com/maps?q=Cape+Nossa+Senhora+do+Rosario+Bauru&z=17&output=embed"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Mapa da cerimônia"
+            ></iframe>
           </div>
         </div>
 
@@ -120,28 +131,41 @@ import '../components/HeroCountdown.module.scss'
             <p class="venue-card__label">Recepção</p>
             <h3 class="venue-card__name">La Terrasse</h3>
             <address class="venue-card__address">
-              R. Antônio Padilha Filho 1-16<br />
-              Vila universitária, Bauru - SP
+              <svg width="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>
+                R. Antônio Padilha Filho 1-16<br />
+                Vila universitária, Bauru - SP
+              </span>
             </address>
             <div class="venue-card__datetime">
-              <p class="venue-card__day">Sábado, 28 de novembro de 2026</p>
-              <p class="venue-card__time">às 19h00</p>
+              <svg width="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <span class="venue-card__time">19:00</span>
             </div>
           </div>
           <div class="venue-map">
-            <div class="venue-map__placeholder">
-              <svg class="venue-map__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
-              </svg>
-              <p class="venue-map__label">Mapa em breve</p>
-            </div>
+            <iframe
+              src="https://maps.google.com/maps?q=La+Terrasse+Bauru&z=17&output=embed"
+              width="100%"
+              height="100%"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Mapa da recepção"
+            ></iframe>
           </div>
         </div>
       </div>
 
       <div class="parking-notice">
-        <svg class="parking-notice__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+        <svg class="parking-notice__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" x2="12" y1="8" y2="12"/>
+          <line x1="12" x2="12.01" y1="16" y2="16"/>
         </svg>
         <p class="parking-notice__text">
           Os locais da cerimônia e da recepção possuem acesso mais restrito para estacionamento. Para maior conforto, sugerimos o uso de transporte por aplicativo.
@@ -212,7 +236,6 @@ import '../components/HeroCountdown.module.scss'
       <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
     </p>
     <p class="site-footer__date">28 · 11 · 2026</p>
-    <p class="site-footer__copy">&copy; 2026 Raíssa &amp; Felipe. Feito com muito amor.</p>
   </footer>
 </Layout>
 
@@ -364,15 +387,13 @@ import '../components/HeroCountdown.module.scss'
   // ── Story section ──────────────────────────────────────────────────────────
 
   .story-section {
-    background: v.$c-surface-low;
-
     @include v.md {
       padding: 4.8rem 2.4rem;
     }
   }
 
   .story-section__inner {
-    max-width: 64rem;
+    max-width: 80rem;
     margin: 0 auto;
   }
 
@@ -407,13 +428,13 @@ import '../components/HeroCountdown.module.scss'
   // ── Ceremony section ───────────────────────────────────────────────────────
 
   .ceremony-section__inner {
-    max-width: 64rem;
+    max-width: 80rem;
     margin: 0 auto;
   }
 
   .venue-grid {
     display: grid;
-    gap: 0.1rem;
+    gap: 1.6rem;
     padding-right: 2.4rem;
     padding-left: 2.4rem;
 
@@ -457,32 +478,47 @@ import '../components/HeroCountdown.module.scss'
   }
 
   .venue-card__address {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
     font-family: v.$f-body;
     font-size: 1.6rem;
-    line-height: 1.8rem;
+    line-height: 1.25;
     color: v.$c-text;
+
+    svg {
+      stroke: v.$c-secondary;
+    }
   }
 
   .venue-card__datetime {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
     margin-top: 1.6rem;
-    padding-top: 1.6rem;
-    border-top: 0.1rem solid v.$c-border;
-  }
-
-  .venue-card__day,
-  .venue-card__time {
     font-family: v.$f-body;
     font-size: 1.6rem;
-    line-height: 1.8rem;
+    line-height: 1.25;
     color: v.$c-text;
+
+    svg {
+      stroke: v.$c-secondary;
+    }
   }
 
   .venue-map {
-    background: v.$c-surface-lowest;
-    height: 13rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 20rem;
+    overflow: hidden;
+    border: 0.1rem solid v.$c-primary-light;
+    border-radius: 0.4rem;
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0.8rem;
+    }
   }
 
   .venue-map__placeholder {
@@ -514,8 +550,8 @@ import '../components/HeroCountdown.module.scss'
 
   .parking-notice__icon {
     flex-shrink: 0;
-    width: 2rem;
-    height: 2rem;
+    width: 2.4rem;
+    height: 2.4rem;
     margin-top: 0.2rem;
     color: v.$c-gold;
   }
@@ -530,7 +566,7 @@ import '../components/HeroCountdown.module.scss'
   // ── Accommodation section ──────────────────────────────────────────────────
 
   .accommodation-section__inner {
-    max-width: 64rem;
+    max-width: 80rem;
     margin: 0 auto;
   }
 
@@ -707,50 +743,26 @@ import '../components/HeroCountdown.module.scss'
   // ── Footer ─────────────────────────────────────────────────────────────────
 
   .site-footer {
+    padding: 2.4rem;
     background: v.$c-primary-dark;
     color: white;
-    padding: 2.4rem;
     text-align: center;
   }
 
   .site-footer__brand {
-    font-family: v.$f-display;
-    font-size: 1.5rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.25rem;
+    text-align: center;
+
+    img {
+      display: inline-block;
+      height: 4.8rem;
+    }
   }
 
   .site-footer__date {
+    margin-top: 0.8rem;
     font-family: v.$f-body;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.3);
-    text-transform: uppercase;
+    font-size: 1.4rem;
+    color: white;
     letter-spacing: 0.1em;
-  }
-
-  .site-footer__nav {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .site-footer__nav-link {
-    font-family: v.$f-body;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.4);
-    transition: color 150ms;
-
-    &:hover { color: rgba(255, 255, 255, 0.7); }
-  }
-
-  .site-footer__copy {
-    font-family: v.$f-body;
-    font-size: 1.2rem;
-    color: rgba(255, 255, 255, 0.2);
-    margin-top: 1.5rem;
   }
 </style>
-
