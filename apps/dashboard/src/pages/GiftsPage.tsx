@@ -43,7 +43,7 @@ export function GiftsPage() {
       const { data, error } = await supabase
         .from('gifts')
         .select('*')
-        .order('created_at', { ascending: false })
+        .order('price_cents', { ascending: true })
       if (error) throw error
       return data
     },

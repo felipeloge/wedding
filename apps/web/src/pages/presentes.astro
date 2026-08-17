@@ -40,10 +40,41 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
     </div>
     <section class="gifts__content">
       <GiftGrid client:load gifts={gifts} />
+      <div class="gifts__pix">
+        <h2 class="gifts__pix-title">
+          Um presente do seu jeito
+        </h2>
+        <p class="gifts__pix-description">
+          Se você preferir nos presentear de uma forma diferente, também ficaremos muito felizes com uma contribuição via PIX.
+        </p>
+        <button
+          type="button"
+          class="gifts__pix-button"
+          id="pix-copy-btn"
+          data-pix="14998560205"
+        >
+          Copiar chave PIX
+        </button>
+      </div>
     </section>
   </main>
   <Footer />
 </Layout>
+
+<script>
+  const btn = document.getElementById('pix-copy-btn') as HTMLButtonElement | null
+  btn?.addEventListener('click', async () => {
+    const key = btn.dataset.pix ?? ''
+    await navigator.clipboard.writeText(key)
+    const original = btn.textContent
+    btn.textContent = 'Chave copiada!'
+    btn.disabled = true
+    setTimeout(() => {
+      btn.textContent = original
+      btn.disabled = false
+    }, 2000)
+  })
+</script>
 
 <style lang="scss" is:global>
   @use '../styles/variables' as v;
@@ -71,5 +102,45 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
 
   .gifts__content {
     background: v.$c-border;
+  }
+
+  .gifts__pix {
+    padding: 4.8rem;
+    text-align: center;
+    background-color: v.$c-primary-light;
+  }
+
+  .gifts__pix-title {
+    font-size: 2.4rem;
+  }
+
+  .gifts__pix-description {
+    max-width: 60rem;
+    margin: 1.6rem auto auto;
+    font-size: 1.6rem;
+  }
+
+  .gifts__pix-button {
+    display: inline-block;
+    margin-top: 2.4rem;
+    padding: 1.2rem 2.4rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white;
+    background: v.$c-primary;
+    border: 0;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background-color 200ms;
+
+    &:hover:not(:disabled) {
+      background: v.$c-primary-dark;
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
   }
 </style>
