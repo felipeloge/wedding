@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   let event: Stripe.Event
   try {
-    event = stripe.webhooks.constructEvent(
+    event = await stripe.webhooks.constructEventAsync(
       rawBody,
       signature,
       import.meta.env.STRIPE_WEBHOOK_SECRET,
@@ -27,7 +27,12 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(`Webhook Error: ${message}`, { status: 400 })
   }
 
-  if (event.type === 'checkout.session.completed') {
+  const isPaid =
+    event.type === 'checkout.session.async_payment_succeeded' ||
+    (event.type === 'checkout.session.completed' &&
+      (event.data.object as Stripe.Checkout.Session).payment_status === 'paid')
+
+  if (isPaid) {
     const session = event.data.object as Stripe.Checkout.Session
 
     const supabase = createClient(
