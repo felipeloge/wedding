@@ -56,11 +56,6 @@ export const POST: APIRoute = async ({ request }) => {
     ],
     mode: 'payment',
     locale: 'pt-BR',
-    payment_method_options: {
-      card: {
-        installments: { enabled: true },
-      },
-    },
     success_url: `${origin}/obrigado?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${origin}/presentes`,
     metadata: {
