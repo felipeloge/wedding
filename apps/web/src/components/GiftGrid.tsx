@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import type { Gift } from '@wedding/supabase';
 import styles from './GiftGrid.module.scss';
 

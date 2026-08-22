@@ -34,10 +34,6 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
 if (!gift) {
   return Astro.redirect('/presentes');
 }
-
-function formatBRL(cents: number) {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100);
-}
 ---
 
 <Layout

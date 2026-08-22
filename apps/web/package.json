@@ -10,23 +10,24 @@
     "typecheck": "astro check"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@astrojs/cloudflare": "^12.4.0",
-    "@astrojs/react": "^4.3.0",
-    "@supabase/supabase-js": "^2.49.9",
+    "@astrojs/check": "0.9.10",
+    "@astrojs/cloudflare": "14.2.3",
+    "@astrojs/react": "6.0.4",
+    "@supabase/supabase-js": "2.112.3",
     "@wedding/supabase": "workspace:*",
-    "astro": "^5.8.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "astro": "7.2.4",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "stripe": "^17.7.0",
-    "typescript": "^5.9.3"
+    "typescript": "5.9.3"
   },
   "devDependencies": {
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19.0.4",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
     "@wedding/config": "workspace:*",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.5.3",
-    "sass": "^1.102.0"
+    "autoprefixer": "10.5.4",
+    "postcss": "8.5.26",
+    "sass": "1.103.0",
+    "wrangler": "4.125.0"
   }
 }

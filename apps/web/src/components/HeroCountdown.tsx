@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { useState, useEffect } from 'react'
 import styles from './HeroCountdown.module.scss'
 

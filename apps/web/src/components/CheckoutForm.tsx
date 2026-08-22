@@ -1,3 +1,4 @@
+/** @jsxImportSource react */
 import { useState } from 'react'
 import type { Gift } from '@wedding/supabase'
 import styles from './CheckoutForm.module.scss'
@@ -15,7 +16,7 @@ export function CheckoutForm({ gift }: Props) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     setError('')
