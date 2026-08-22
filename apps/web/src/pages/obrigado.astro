@@ -33,102 +33,108 @@ import Header from '../components/Header.astro'
   @use '../styles/variables' as v;
 
   .thank-you-page {
-    padding-top: 64px;
-    min-height: 100vh;
-    background: v.$c-bg;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 1rem;
-    padding-right: 1rem;
-
-    @include v.md { padding-top: 80px; }
+    min-height: 100vh;
+    padding: 6.4rem 2.4rem 2.4rem;
   }
 
   .thank-you-inner {
-    max-width: 32rem;
+    max-width: 48rem;
     text-align: center;
-    padding: 5rem 0;
+    padding: 4.8rem 0;
   }
 
   .thank-you-icon {
-    width: 4rem;
-    height: 4rem;
-    border-radius: 9999px;
-    background: rgba(64, 74, 50, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 6.4rem;
+    height: 6.4rem;
     margin: 0 auto 2rem;
+    background: rgba(64, 74, 50, 0.1);
+    border-radius: 100%;
   }
 
   .thank-you-eyebrow {
+    margin-bottom: 1.6rem;
     font-family: v.$f-body;
-    font-size: 10px;
+    font-size: 1.4rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.35em;
-    color: v.$c-text-muted;
-    margin-bottom: 1rem;
+    color: v.$c-primary;
   }
 
   .thank-you-title {
-    font-family: v.$f-display;
-    font-size: 1.875rem;
-    color: v.$c-text;
     margin-bottom: 1.25rem;
-
-    @include v.md { font-size: 2.25rem; }
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+    color: v.$c-text;
   }
 
   .thank-you-text {
+    max-width: 48rem;
+    margin: 0 auto 2.4rem;
     font-family: v.$f-body;
-    font-size: 0.875rem;
-    color: v.$c-text-muted;
-    line-height: 1.625;
-    margin-bottom: 2.5rem;
-    max-width: 24rem;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: v.$c-text;
   }
 
   .thank-you-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
     justify-content: center;
+    gap: 0.8rem;
 
-    @include v.sm { flex-direction: row; }
+    @include v.sm {
+      flex-direction: row;
+    }
   }
 
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: v.$f-body;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: white;
-    background: v.$c-primary;
-    padding: 0.875rem 2rem;
-    transition: background-color 150ms;
-
-    &:hover { background: v.$c-primary-dark; }
-  }
-
+  .btn-primary,
   .btn-outline {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    padding: 1.1rem 1.6rem;
     font-family: v.$f-body;
-    font-size: 11px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.25;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: v.$c-text;
-    border: 1px solid v.$c-border;
-    padding: 0.875rem 2rem;
+    letter-spacing: 0.1rem;
+    color: white;
+    border: 0.1rem solid transparent;
+    border-radius: 0.4rem;
     transition: background-color 150ms;
 
-    &:hover { background: v.$c-surface; }
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 0.2rem solid v.$c-primary-light;
+      outline-offset: 0;
+    }
+  }
+
+  .btn-primary {
+    background: v.$c-primary;
+
+    &:hover {
+      background: v.$c-primary-dark;
+    }
+  }
+
+  .btn-outline {
+    color: v.$c-primary;
+    background-color: white;
+    border-color: v.$c-primary;
+
+    &:hover {
+      background: v.$c-primary-light;
+    }
   }
 </style>
