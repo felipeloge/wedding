@@ -143,9 +143,16 @@ export function PaymentsPage() {
                     <p className="font-body text-sm text-text">
                       {payment.buyer_name ?? '—'}
                     </p>
-                    {payment.buyer_email && (
+                    {payment.buyer_email ? (
                       <p className="font-body text-xs text-text-muted">{payment.buyer_email}</p>
-                    )}
+                    ) : null}
+                    {payment.buyer_message ? (
+                      <p className="font-body text-xs text-text-muted mt-1">
+                        <strong>Mensagem:</strong>
+                        <br />
+                        {payment.buyer_message}
+                      </p>
+                    ) : null}
                   </td>
                   <td className="px-4 py-3 font-body text-sm text-text-muted max-w-[200px] truncate">
                     {payment.gifts?.name ?? '—'}
