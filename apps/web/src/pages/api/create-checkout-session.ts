@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro'
-import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
 
 export const prerender = false
@@ -35,36 +34,78 @@ export const POST: APIRoute = async ({ request }) => {
     })
   }
 
-  const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY)
   const origin = new URL(request.url).origin
+  const accessToken = import.meta.env.MERCADOPAGO_ACCESS_TOKEN
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card', 'pix'],
-    line_items: [
+  const preferenceBody = {
+    items: [
       {
-        price_data: {
-          currency: 'brl',
-          unit_amount: gift.price_cents,
-          product_data: {
-            name: gift.name,
-            description: gift.description ?? undefined,
-            images: gift.image_url ? [gift.image_url] : [],
-          },
-        },
+        title: gift.name,
+        description: gift.description ?? undefined,
         quantity: 1,
+        unit_price: gift.price_cents / 100,
+        currency_id: 'BRL',
+        picture_url: gift.image_url ?? undefined,
       },
     ],
-    mode: 'payment',
-    locale: 'pt-BR',
-    success_url: `${origin}/obrigado?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${origin}/presentes`,
+    back_urls: {
+      success: `${origin}/obrigado`,
+      failure: `${origin}/presentes`,
+      pending: `${origin}/obrigado`,
+    },
+    auto_return: 'approved',
+    payment_methods: { installments: 12 },
+    notification_url: `${origin}/api/mp-webhook`,
     metadata: {
-      gift_id: gift.id,
+      gift_id: giftId,
       buyer_message: (buyerMessage ?? '').slice(0, 500),
     },
-  })
+  }
 
-  return new Response(JSON.stringify({ url: session.url }), {
+  let mpRes: Response
+  try {
+    mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(preferenceBody),
+    })
+  } catch (err) {
+    console.error('[mercadopago] Erro de rede:', err)
+    return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (!mpRes.ok) {
+    const errBody = await mpRes.json().catch(() => ({}))
+    console.error('[mercadopago] Erro ao criar preferência:', errBody)
+    return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  const preference = await mpRes.json()
+
+  // Test tokens (TEST-...) must use sandbox_init_point
+  const isTest = String(accessToken).startsWith('TEST-')
+  const paymentUrl: string | undefined = isTest
+    ? preference.sandbox_init_point
+    : preference.init_point
+
+  if (!paymentUrl) {
+    console.error('[mercadopago] init_point ausente na resposta:', preference)
+    return new Response(JSON.stringify({ error: 'URL de pagamento não retornada' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  return new Response(JSON.stringify({ url: paymentUrl }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
   })
