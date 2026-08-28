@@ -11,6 +11,7 @@ import { LoginPage } from './pages/LoginPage'
 import { DashboardHomePage } from './pages/DashboardHomePage'
 import { GiftsPage } from './pages/GiftsPage'
 import { PaymentsPage } from './pages/PaymentsPage'
+import { GuestsPage } from './pages/GuestsPage'
 import { supabase } from './lib/supabase'
 
 // ── Root ──────────────────────────────────────────────────────
@@ -75,12 +76,18 @@ const paymentsRoute = createRoute({
   component: PaymentsPage,
 })
 
+const guestsRoute = createRoute({
+  getParentRoute: () => dashboardRoute,
+  path: '/guests',
+  component: GuestsPage,
+})
+
 // ── Route tree ────────────────────────────────────────────────
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   protectedRoute.addChildren([
-    dashboardRoute.addChildren([dashboardIndexRoute, giftsRoute, paymentsRoute]),
+    dashboardRoute.addChildren([dashboardIndexRoute, giftsRoute, paymentsRoute, guestsRoute]),
   ]),
 ])
 

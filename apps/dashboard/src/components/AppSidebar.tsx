@@ -1,5 +1,5 @@
 import { useNavigate, Link, useRouterState } from '@tanstack/react-router'
-import { LayoutDashboard, Gift, CreditCard, LogOut, ExternalLink } from 'lucide-react'
+import { LayoutDashboard, Gift, CreditCard, Users, LogOut, ExternalLink } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { cn } from '../lib/utils'
 
@@ -14,6 +14,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Visão Geral', exact: true },
   { to: '/dashboard/gifts', icon: Gift, label: 'Presentes' },
   { to: '/dashboard/payments', icon: CreditCard, label: 'Pagamentos' },
+  { to: '/dashboard/guests', icon: Users, label: 'Convidados' },
 ]
 
 export function AppSidebar() {

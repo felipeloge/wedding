@@ -6,13 +6,18 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "format": "prettier --write \"**/*.{ts,tsx,astro,json,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,astro,json,md}\"",
+    "db:push": "supabase db push",
+    "db:reset": "supabase db reset",
+    "functions:deploy": "supabase functions deploy",
+    "functions:serve": "supabase functions serve"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",
     "prettier": "^3.4.2",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "supabase": "^2.115.0",
     "turbo": "^2.5.4"
   },
   "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
