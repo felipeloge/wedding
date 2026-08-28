@@ -1,0 +1,146 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { GiftGrid } from '../components/GiftGrid';
+import type { Gift } from '@wedding/supabase';
+
+let gifts: Gift[] = [];
+
+if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
+  try {
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY);
+    const { data } = await supabase
+      .from('gifts')
+      .select('*')
+      .order('price_cents', { ascending: true });
+    gifts = data ?? []
+  } catch {
+    // Supabase not configured yet — show empty state
+  }
+}
+---
+
+<Layout
+  title="Lista de Presentes | Raíssa & Felipe"
+  description="Selecione um presente especial para Raíssa e Felipe. Pagamento seguro via Asaas."
+>
+  <Header />
+  <main class="gifts">
+    <div class="gifts__header">
+      <h1 class="gifts__title">Lista de Presentes</h1>
+      <p class="gifts__description">
+        Sua presença é o maior presente. Mas se desejar nos honrar com um presente para
+        celebrar nosso novo começo, preparamos uma seleção especial de itens e
+        experiências.
+      </p>
+    </div>
+    <section class="gifts__content">
+      <GiftGrid client:load gifts={gifts} />
+      <div class="gifts__pix">
+        <h2 class="gifts__pix-title">
+          Um presente do seu jeito
+        </h2>
+        <p class="gifts__pix-description">
+          Se você preferir nos presentear de uma forma diferente, também ficaremos muito felizes com uma contribuição via PIX.
+        </p>
+        <button
+          type="button"
+          class="gifts__pix-button"
+          id="pix-copy-btn"
+          data-pix="14998560205"
+        >
+          Copiar chave PIX
+        </button>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const btn = document.getElementById('pix-copy-btn') as HTMLButtonElement | null
+  btn?.addEventListener('click', async () => {
+    const key = btn.dataset.pix ?? ''
+    await navigator.clipboard.writeText(key)
+    const original = btn.textContent
+    btn.textContent = 'Chave copiada!'
+    btn.disabled = true
+    setTimeout(() => {
+      btn.textContent = original
+      btn.disabled = false
+    }, 2000)
+  })
+</script>
+
+<style lang="scss" is:global>
+  @use '../styles/variables' as v;
+
+  .gifts__header {
+    padding: 10.4rem 1.6rem 4rem;
+    background: v.$c-primary-dark;
+    text-align: center;
+    color: white;
+  }
+
+  .gifts__title {
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+  }
+
+  .gifts__description {
+    max-width: 48rem;
+    margin: 1.6rem auto auto;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: white;
+  }
+
+  .gifts__content {
+    background: v.$c-border;
+  }
+
+  .gifts__pix {
+    padding: 4.8rem;
+    text-align: center;
+    background-color: v.$c-primary-light;
+  }
+
+  .gifts__pix-title {
+    font-size: 2.4rem;
+  }
+
+  .gifts__pix-description {
+    max-width: 60rem;
+    margin: 1.6rem auto auto;
+    font-size: 1.6rem;
+  }
+
+  .gifts__pix-button {
+    display: inline-block;
+    margin-top: 2.4rem;
+    padding: 1.2rem 2.4rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white;
+    background: v.$c-primary;
+    border: 0;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: background-color 200ms;
+
+    &:hover:not(:disabled) {
+      background: v.$c-primary-dark;
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+  }
+</style>

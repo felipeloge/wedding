@@ -1,0 +1,113 @@
+@use '../styles/variables' as v;
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  background: v.$c-primary-dark;
+  height: clamp(320px, 65vh, 700px);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1000ms ease-in-out;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom right, v.$c-primary-dark, v.$c-primary);
+}
+
+.placeholderText {
+  font-family: v.$f-display;
+  font-size: 3.75rem;
+  color: rgba(255, 255, 255, 0.1);
+  user-select: none;
+
+  @include v.md {
+    font-size: 6rem;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(42, 51, 29, 0.4), transparent, transparent);
+  pointer-events: none;
+}
+
+.btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 150ms;
+
+  &:hover {
+    color: white;
+  }
+}
+
+.btnPrev {
+  left: 1rem;
+
+  @include v.md {
+    left: 2rem;
+  }
+}
+
+.btnNext {
+  right: 1rem;
+
+  @include v.md {
+    right: 2rem;
+  }
+}
+
+.dots {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.4);
+  transition: all 300ms;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.7);
+  }
+
+  &.active {
+    width: 20px;
+    height: 6px;
+    background: white;
+  }
+}

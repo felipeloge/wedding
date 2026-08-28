@@ -1,0 +1,108 @@
+@use '../styles/variables' as v;
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+
+.GridEmpty {
+  padding: 4.8rem 0;
+  text-align: center;
+}
+
+.GridEmptyMessage {
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  color: v.$c-text;
+}
+
+// ─── Grid ─────────────────────────────────────────────────────────────────────
+
+.Grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+  max-width: 80rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1.6rem;
+
+  @include v.lg {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// ─── Card ─────────────────────────────────────────────────────────────────────
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: v.$c-surface-lowest;
+  border-radius: 0.8rem;
+}
+
+.CardImageWrap {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: v.$c-surface-low;
+}
+
+.CardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease-out;
+
+  .Card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.CardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  flex: 1;
+  padding: 1.2rem 1.6rem;
+}
+
+.CardTitle {
+  flex: 1;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: v.$c-text;
+}
+
+.CardFooter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+
+.CardItemPrice {
+  font-family: v.$f-body;
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 2rem;
+  text-align: center;
+  color: v.$c-primary;
+}
+
+.CardButton {
+  padding: 0.8rem 1.6rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+  background: v.$c-primary;
+  border: 0;
+  border-radius: 0.4rem;
+  transition: background-color 200ms;
+
+  &:hover {
+    background: v.$c-primary-dark;
+  }
+}

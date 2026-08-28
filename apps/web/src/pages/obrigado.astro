@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+---
+
+<Layout title="Obrigado! | Raíssa & Felipe" description="Seu presente foi recebido com muito carinho!">
+  <Header />
+
+  <main class="thank-you-page">
+    <div class="thank-you-inner">
+      <div class="thank-you-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#404a32" stroke-width="1.5">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+
+      <p class="thank-you-eyebrow">Pagamento confirmado</p>
+      <h1 class="thank-you-title">Muito obrigado! 🌿</h1>
+      <p class="thank-you-text">
+        Seu presente foi recebido com muito carinho. Mal podemos esperar para compartilhar
+        este momento especial com você em <strong>28 de novembro de 2026</strong>.
+      </p>
+
+      <div class="thank-you-actions">
+        <a href="/presentes" class="btn-primary">Ver mais presentes</a>
+        <a href="/" class="btn-outline">Voltar ao início</a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style lang="scss" is:global>
+  @use '../styles/variables' as v;
+
+  .thank-you-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 6.4rem 2.4rem 2.4rem;
+  }
+
+  .thank-you-inner {
+    max-width: 48rem;
+    text-align: center;
+    padding: 4.8rem 0;
+  }
+
+  .thank-you-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6.4rem;
+    height: 6.4rem;
+    margin: 0 auto 2rem;
+    background: rgba(64, 74, 50, 0.1);
+    border-radius: 100%;
+  }
+
+  .thank-you-eyebrow {
+    margin-bottom: 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: v.$c-primary;
+  }
+
+  .thank-you-title {
+    margin-bottom: 1.25rem;
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+    color: v.$c-text;
+  }
+
+  .thank-you-text {
+    max-width: 48rem;
+    margin: 0 auto 2.4rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: v.$c-text;
+  }
+
+  .thank-you-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.8rem;
+
+    @include v.sm {
+      flex-direction: row;
+    }
+  }
+
+  .btn-primary,
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.1rem 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.25;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: white;
+    border: 0.1rem solid transparent;
+    border-radius: 0.4rem;
+    transition: background-color 150ms;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 0.2rem solid v.$c-primary-light;
+      outline-offset: 0;
+    }
+  }
+
+  .btn-primary {
+    background: v.$c-primary;
+
+    &:hover {
+      background: v.$c-primary-dark;
+    }
+  }
+
+  .btn-outline {
+    color: v.$c-primary;
+    background-color: white;
+    border-color: v.$c-primary;
+
+    &:hover {
+      background: v.$c-primary-light;
+    }
+  }
+</style>

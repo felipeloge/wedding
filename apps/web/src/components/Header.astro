@@ -1,0 +1,255 @@
+---
+---
+
+<header id="site-header" class="site-header">
+  <div class="site-header__inner">
+    <div class="site-header__row">
+      <div class="site-header__spacer"></div>
+
+      <a href="/" id="header-logo" class="site-header__logo">
+        <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
+      </a>
+
+      <button
+        id="menu-toggle"
+        class="site-header__toggle"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+      >
+        <svg id="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div
+  class="sidemenu"
+  id="sidemenu"
+  aria-hidden="true"
+>
+  <button
+    class="sidemenu__close"
+    id="menu-close"
+    aria-label="Fechar menu"
+  >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+  <div class="sidemenu__brand">
+    <img src="/images/logo-rs-white.png" alt="Raíssa & Felipe" />
+  </div>
+  <nav class="sidemenu__nav">
+    {
+      [
+        { href: '/#inicio', label: 'Início' },
+        { href: '/#historia', label: 'Nossa História' },
+        { href: '/#cerimonia', label: 'Cerimônia' },
+        { href: '/#hospedagem', label: 'Hospedagem' },
+        { href: '/presentes', label: 'Lista de Presentes' },
+      ].map(({ href, label }) => (
+        <a href={href} class="sidemenu__link menu-link">{label}</a>
+      ))
+    }
+  </nav>
+  <span class="sidemenu__date">28.11.2026</span>
+</div>
+
+<script>
+  const header = document.getElementById('site-header')
+  const menuToggle = document.getElementById('menu-toggle')
+  const menuClose = document.getElementById('menu-close')
+  const mobileMenu = document.getElementById('sidemenu')
+
+  // Sticky header on scroll
+  let ticking = false
+  const updateHeader = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 60
+        if (scrolled) {
+          header?.classList.add('scrolled')
+        } else {
+          header?.classList.remove('scrolled')
+        }
+        ticking = false
+      })
+      ticking = true
+    }
+  }
+
+  window.addEventListener('scroll', updateHeader, { passive: true })
+
+  // Mobile menu open/close
+  const openMenu = () => {
+    mobileMenu?.classList.add('open')
+    mobileMenu?.setAttribute('aria-hidden', 'false')
+    menuToggle?.setAttribute('aria-expanded', 'true')
+    menuToggle?.style.setProperty('visibility', 'hidden')
+    menuToggle?.style.setProperty('pointer-events', 'none')
+    document.body.style.overflow = 'hidden'
+  }
+
+  const closeMenu = () => {
+    mobileMenu?.classList.remove('open')
+    mobileMenu?.setAttribute('aria-hidden', 'true')
+    menuToggle?.setAttribute('aria-expanded', 'false')
+    menuToggle?.style.removeProperty('visibility')
+    menuToggle?.style.removeProperty('pointer-events')
+    document.body.style.overflow = ''
+  }
+
+  menuToggle?.addEventListener('click', () => {
+    if (mobileMenu?.classList.contains('open')) {
+      closeMenu()
+    } else {
+      openMenu()
+    }
+  })
+  menuClose?.addEventListener('click', closeMenu)
+
+  // Close on nav link click
+  document.querySelectorAll('.menu-link').forEach((link) => {
+    link.addEventListener('click', closeMenu)
+  })
+
+  // Close on Escape key
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Escape') closeMenu()
+  })
+</script>
+
+<style lang="scss" is:global>
+  @use '../styles/variables' as v;
+
+  .site-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 50;
+    transition: background-color 500ms, border-color 500ms, box-shadow 500ms;
+
+    &.scrolled {
+      background: rgba(42, 51, 29, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .site-header__inner {
+    max-width: 128rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .site-header__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 6.4rem;
+  }
+
+  .site-header__spacer {
+    width: 4rem;
+  }
+
+  .site-header__logo {
+    img {
+      width: auto;
+      height: 3.2rem;
+    }
+  }
+
+  .site-header__toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    color: white;
+    transition: transform 200ms;
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+
+  .sidemenu {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: v.$c-primary-dark;
+    transform: translateX(100%);
+    transition: transform 500ms ease-in-out;
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  .sidemenu__close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1rem;
+    padding: 0.8rem;
+    line-height: 0;
+    color: white;
+    transition: transform 200ms;
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+
+  .sidemenu__brand {
+    position: absolute;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6.4rem;
+
+    img {
+      height: 3.2rem;
+    }
+  }
+
+  .sidemenu__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .sidemenu__link {
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+    line-height: 2.8rem;
+    color: white;
+    transition: color 200ms;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .sidemenu__date {
+    position: absolute;
+    bottom: 2rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    color: white;
+    letter-spacing: 0.1em;
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { CheckoutForm } from '../../components/CheckoutForm';
+import type { Gift } from '@wedding/supabase';
+
+const { id } = Astro.params;
+
+let gift: Gift | null = null;
+
+if (!id) {
+  return Astro.redirect('/presentes');
+}
+
+if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
+  try {
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(import.meta.env.SUPABASE_URL, import.meta.env.SUPABASE_ANON_KEY);
+    const { data } = await supabase
+      .from('gifts')
+      .select('*')
+      .eq('id', id)
+      .eq('is_available', true)
+      .single();
+    gift = data;
+  } catch {
+    // Supabase not configured yet
+  }
+}
+
+if (!gift) {
+  return Astro.redirect('/presentes');
+}
+---
+
+<Layout
+  title={`${gift.name} | Presentes – Raíssa & Felipe`}
+  description={`Presenteie Raíssa e Felipe com "${gift.name}".`}
+>
+  <Header />
+
+  <main class="checkout">
+    <div class="checkout__header">
+      <a
+        class="checkout__back"
+        href="/presentes"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Voltar para a lista
+      </a>
+    </div>
+    <div class="checkout__content">
+      <CheckoutForm client:load gift={gift} />
+    </div>
+    <Footer />
+  </main>
+</Layout>
+
+<style lang="scss" is:global>
+  @use '../../styles/variables' as v;
+
+  .checkout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .checkout__header {
+    padding: 10.4rem 2.4rem 2.4rem;
+    background: v.$c-primary-dark;
+  }
+
+  .checkout__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: white;
+    transition: color 150ms;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .checkout__content {
+    flex: 1;
+    padding: 2.4rem;
+  }
+</style>

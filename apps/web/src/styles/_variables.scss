@@ -1,0 +1,33 @@
+// ─── Colours ──────────────────────────────────────────────────────────────────
+$c-primary:        #404a32;
+$c-primary-dark:   #2a331d;
+$c-primary-light:  #bfcbab;
+$c-secondary:      #496644;
+$c-gold:           #d4af37;
+
+$c-bg:             #fbf9f4;
+$c-surface-lowest: #ffffff;
+$c-surface-low:    #f5f3ee;
+$c-surface:        #f0eee9;
+$c-border:         #e5e2da;
+$c-text:           #1b1c19;
+$c-text-muted:     #45483f;
+
+// ─── Typography ───────────────────────────────────────────────────────────────
+$f-imperial: 'Imperial Script', cursive;
+$f-display:  'Playfair Display', Georgia, serif;
+$f-body:     'Montserrat', system-ui, sans-serif;
+
+// ─── Shadows ──────────────────────────────────────────────────────────────────
+$shadow-card:       0 2px 24px rgba(64, 74, 50, 0.08);
+$shadow-card-hover: 0 4px 32px rgba(64, 74, 50, 0.12);
+
+// ─── Breakpoints ──────────────────────────────────────────────────────────────
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+
+// ─── Responsive mixins ────────────────────────────────────────────────────────
+@mixin sm { @media (min-width: #{$bp-sm}) { @content; } }
+@mixin md { @media (min-width: #{$bp-md}) { @content; } }
+@mixin lg { @media (min-width: #{$bp-lg}) { @content; } }

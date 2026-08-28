@@ -1,0 +1,181 @@
+@use '../styles/variables' as v;
+
+.CheckoutForm {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// ─── Order summary ────────────────────────────────────────────────────────────
+
+.CheckoutSummary {
+  padding: 1.6rem;
+  background: v.$c-surface-lowest;
+  border: 0.1rem solid v.$c-border;
+  border-radius: 0.4rem;
+}
+
+.CheckoutSummaryLabel {
+  margin-bottom: 1.6rem;
+  font-family: v.$f-body;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: v.$c-text-muted;
+}
+
+.CheckoutSummaryContent {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.CheckoutSummaryImgWrap {
+  width: 9.6rem;
+  height: 9.6rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: v.$c-surface-low;
+  border: 0.1rem solid v.$c-border;
+  border-radius: 0.4rem;
+}
+
+.CheckoutSummaryImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.CheckoutSummaryInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.CheckoutSummaryName {
+  font-family: v.$f-body;
+  font-size: 1.8rem;
+  line-height: 2rem;
+  color: v.$c-text;
+}
+
+.CheckoutSummaryPrice {
+  font-family: v.$f-body;
+  font-size: 2rem;
+  line-height: 1;
+  color: v.$c-primary;
+  font-weight: 500;
+  margin-top: 1.6rem;
+}
+
+// ─── Message field ────────────────────────────────────────────────────────────
+
+.CheckoutMessage {
+  display: flex;
+  flex-direction: column;
+}
+
+.CheckoutMessageLabel {
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: v.$c-text;
+  margin-bottom: 0.8rem;
+
+  span {
+    color: v.$c-text-muted;
+    font-weight: 400;
+  }
+}
+
+.CheckoutMessageInput {
+  width: 100%;
+  min-height: 12rem;
+  field-sizing: content;
+  padding: 0.8rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: v.$c-text;
+  background: white;
+  border: 1px solid v.$c-secondary;
+  border-radius: 0.4rem;
+  outline: none;
+  resize: none;
+  transition: border-color 150ms;
+
+  &::placeholder {
+    color: #464646;
+  }
+
+  &:focus {
+    border-color: v.$c-primary;
+    outline: 0.4rem solid v.$c-primary-light;
+  }
+}
+
+.CheckoutMessageCharCount {
+  margin-top: 0.4rem;
+  font-family: v.$f-body;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  text-align: right;
+  color: v.$c-text;
+}
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+
+.CheckoutError {
+  padding: 1.6rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 0.1rem solid #fecaca;
+}
+
+// ─── Submit ───────────────────────────────────────────────────────────────────
+
+.CheckoutSubmitButton {
+  width: 100%;
+  padding: 1.2rem 1.6rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: white;
+  background: v.$c-primary;
+  border: 0;
+  border-radius: 0.4rem;
+  transition: background-color 200ms;
+
+  &:hover:not(:disabled) {
+    background: v.$c-primary-dark;
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid v.$c-primary-light;
+    outline-offset: 0;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Secure notice ────────────────────────────────────────────────────────────
+
+.CheckoutSecureMessage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-family: v.$f-body;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  color: v.$c-text;
+}
