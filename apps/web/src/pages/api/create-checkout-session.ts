@@ -34,78 +34,80 @@ export const POST: APIRoute = async ({ request }) => {
     })
   }
 
-  const origin = new URL(request.url).origin
-  const accessToken = import.meta.env.MERCADOPAGO_ACCESS_TOKEN
+  const origin  = new URL(request.url).origin
+  const apiKey  = import.meta.env.ASAAS_API_KEY
+  const baseUrl = import.meta.env.ASAAS_SANDBOX === 'true'
+    ? 'https://api-sandbox.asaas.com'
+    : 'https://api.asaas.com'
 
-  const preferenceBody = {
-    items: [
-      {
-        title: gift.name,
-        description: gift.description ?? undefined,
-        quantity: 1,
-        unit_price: gift.price_cents / 100,
-        currency_id: 'BRL',
-        picture_url: gift.image_url ?? undefined,
-      },
-    ],
-    back_urls: {
-      success: `${origin}/obrigado`,
-      failure: `${origin}/presentes`,
-      pending: `${origin}/obrigado`,
-    },
-    auto_return: 'approved',
-    payment_methods: { installments: 12 },
-    notification_url: `${origin}/api/mp-webhook`,
-    metadata: {
-      gift_id: giftId,
-      buyer_message: (buyerMessage ?? '').slice(0, 500),
-    },
+  const headers = {
+    accept: 'application/json',
+    'content-type': 'application/json',
+    access_token: apiKey,
   }
 
-  let mpRes: Response
-  try {
-    mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(preferenceBody),
-    })
-  } catch (err) {
-    console.error('[mercadopago] Erro de rede:', err)
+  // Asaas requires a customer entity before creating a payment
+  const customerRes = await fetch(`${baseUrl}/v3/customers`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ name: 'Convidado' }),
+  })
+
+  if (!customerRes.ok) {
+    const err = await customerRes.json().catch(() => ({}))
+    console.error('[asaas] Erro ao criar cliente:', err)
     return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  if (!mpRes.ok) {
-    const errBody = await mpRes.json().catch(() => ({}))
-    console.error('[mercadopago] Erro ao criar preferência:', errBody)
+  const { id: customerId } = await customerRes.json() as { id: string }
+
+  // Due date 7 days from now gives guests enough time to complete the payment
+  const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+
+  const description = buyerMessage
+    ? `${gift.name} | Mensagem: ${buyerMessage.slice(0, 400)}`
+    : gift.name
+
+  const paymentRes = await fetch(`${baseUrl}/v3/payments`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      customer: customerId,
+      billingType: 'UNDEFINED',
+      value: gift.price_cents / 100,
+      dueDate,
+      description,
+      externalReference: giftId,
+      callback: {
+        successUrl: `${origin}/obrigado`,
+        autoRedirect: true,
+      },
+    }),
+  })
+
+  if (!paymentRes.ok) {
+    const err = await paymentRes.json().catch(() => ({}))
+    console.error('[asaas] Erro ao criar pagamento:', err)
     return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  const preference = await mpRes.json()
+  const payment = await paymentRes.json() as { invoiceUrl: string }
 
-  // Test tokens (TEST-...) must use sandbox_init_point
-  const isTest = String(accessToken).startsWith('TEST-')
-  const paymentUrl: string | undefined = isTest
-    ? preference.sandbox_init_point
-    : preference.init_point
-
-  if (!paymentUrl) {
-    console.error('[mercadopago] init_point ausente na resposta:', preference)
+  if (!payment.invoiceUrl) {
+    console.error('[asaas] invoiceUrl ausente:', payment)
     return new Response(JSON.stringify({ error: 'URL de pagamento não retornada' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  return new Response(JSON.stringify({ url: paymentUrl }), {
+  return new Response(JSON.stringify({ url: payment.invoiceUrl }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
   })
