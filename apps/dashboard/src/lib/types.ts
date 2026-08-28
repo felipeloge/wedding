@@ -42,8 +42,8 @@ export type Database = {
         Row: {
           id: string
           gift_id: string | null
-          stripe_session_id: string
-          stripe_payment_intent_id: string | null
+          provider_session_id: string
+          provider_payment_id: string | null
           buyer_name: string | null
           buyer_email: string | null
           buyer_message: string | null
@@ -58,8 +58,8 @@ export type Database = {
         Insert: {
           id?: string
           gift_id?: string | null
-          stripe_session_id: string
-          stripe_payment_intent_id?: string | null
+          provider_session_id: string
+          provider_payment_id?: string | null
           buyer_name?: string | null
           buyer_email?: string | null
           buyer_message?: string | null
@@ -73,7 +73,7 @@ export type Database = {
         }
         Update: {
           status?: string
-          stripe_payment_intent_id?: string | null
+          provider_payment_id?: string | null
           payment_method?: string | null
           installments?: number
           paid_at?: string | null
