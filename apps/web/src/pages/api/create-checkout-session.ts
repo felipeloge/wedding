@@ -35,8 +35,10 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const origin  = new URL(request.url).origin
-  const apiKey  = import.meta.env.ASAAS_API_KEY
-  const baseUrl = import.meta.env.ASAAS_SANDBOX === 'true'
+  const apiKey     = import.meta.env.ASAAS_API_KEY
+  // Pre-created customer in Asaas with the owner's CPF — required for UNDEFINED billing type
+  const customerId = import.meta.env.ASAAS_CUSTOMER_ID
+  const baseUrl    = import.meta.env.ASAAS_SANDBOX === 'true'
     ? 'https://api-sandbox.asaas.com'
     : 'https://api.asaas.com'
 
@@ -46,24 +48,6 @@ export const POST: APIRoute = async ({ request }) => {
     access_token: apiKey,
     'user-agent': 'RaissaEFelipe2026/1.0',
   }
-
-  // Asaas requires a customer entity before creating a payment
-  const customerRes = await fetch(`${baseUrl}/v3/customers`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ name: 'Convidado' }),
-  })
-
-  if (!customerRes.ok) {
-    const err = await customerRes.json().catch(() => ({}))
-    console.error('[asaas] Erro ao criar cliente:', err)
-    return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }
-
-  const { id: customerId } = await customerRes.json() as { id: string }
 
   // Due date 7 days from now gives guests enough time to complete the payment
   const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
@@ -81,7 +65,8 @@ export const POST: APIRoute = async ({ request }) => {
     headers,
     body: JSON.stringify({
       customer: customerId,
-      billingType: 'UNDEFINED',
+      // CREDIT_CARD shows the installment selector; DEBIT_CARD is not a standalone option in the API
+      billingType: 'CREDIT_CARD',
       value: gift.price_cents / 100,
       dueDate,
       description,
