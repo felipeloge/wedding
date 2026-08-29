@@ -1,5 +1,5 @@
 import { useNavigate, Link, useRouterState } from '@tanstack/react-router'
-import { LayoutDashboard, Gift, CreditCard, Users, LogOut, ExternalLink } from 'lucide-react'
+import { LayoutDashboard, Gift, CreditCard, Users, LogOut, ExternalLink, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { cn } from '../lib/utils'
 
@@ -10,6 +10,11 @@ interface NavItem {
   exact?: boolean
 }
 
+interface AppSidebarProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
 const NAV_ITEMS: NavItem[] = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Visão Geral', exact: true },
   { to: '/dashboard/gifts', icon: Gift, label: 'Presentes' },
@@ -17,7 +22,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/dashboard/guests', icon: Users, label: 'Convidados' },
 ]
 
-export function AppSidebar() {
+export function AppSidebar({ isOpen, onClose }: AppSidebarProps) {
   const navigate = useNavigate()
   const routerState = useRouterState()
   const pathname = routerState.location.pathname
@@ -33,15 +38,29 @@ export function AppSidebar() {
   }
 
   return (
-    <aside className="w-56 flex-shrink-0 bg-surface-lowest border-r border-border flex flex-col min-h-screen sticky top-0">
+    <aside
+      className={cn(
+        'w-56 flex-shrink-0 bg-surface-lowest border-r border-border flex flex-col min-h-screen',
+        'fixed inset-y-0 left-0 z-30 transition-transform duration-200',
+        isOpen ? 'translate-x-0' : '-translate-x-full',
+        'md:sticky md:top-0 md:inset-auto md:z-auto md:translate-x-0',
+      )}
+    >
       {/* Logo */}
-      <div className="px-6 py-6 border-b border-border">
-        <Link to="/" className="block">
-          <p className="font-display text-xl tracking-widest text-text">R & F</p>
+      <div className="px-6 py-6 border-b border-border flex items-start justify-between">
+        <Link to="/" className="block" onClick={onClose}>
+          <p className="font-display text-xl tracking-widest text-text">R &amp; F</p>
           <p className="font-body text-[9px] uppercase tracking-[0.25em] text-text-muted mt-0.5">
             Gerenciamento
           </p>
         </Link>
+        <button
+          onClick={onClose}
+          className="p-1 rounded hover:bg-surface transition-colors md:hidden"
+          aria-label="Fechar menu"
+        >
+          <X className="w-4 h-4 text-text-muted" />
+        </button>
       </div>
 
       {/* Nav */}
@@ -50,6 +69,7 @@ export function AppSidebar() {
           <Link
             key={to}
             to={to}
+            onClick={onClose}
             className={cn(
               'flex items-center gap-3 px-3 py-2.5 font-body text-sm transition-colors rounded-none',
               isActive(to, exact)

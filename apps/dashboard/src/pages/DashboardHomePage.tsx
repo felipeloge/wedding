@@ -121,7 +121,8 @@ export function DashboardHomePage() {
             <p className="font-body text-sm text-text-muted">Nenhum pagamento registrado ainda.</p>
           </div>
         ) : (
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[560px]">
             <thead>
               <tr className="border-b border-border bg-surface-low">
                 {['Comprador', 'Presente', 'Valor', 'Data', 'Status'].map((h) => (
@@ -170,6 +171,7 @@ export function DashboardHomePage() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
     </div>
