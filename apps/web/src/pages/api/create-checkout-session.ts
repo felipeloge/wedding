@@ -68,8 +68,9 @@ export const POST: APIRoute = async ({ request }) => {
   if (!customerRes.ok) {
     const err = await customerRes.json().catch(() => ({}))
     console.error('[asaas] Erro ao criar cliente:', err)
-    return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
-      status: 500,
+    const description: string = err?.errors?.[0]?.description ?? 'Erro ao criar sessão de pagamento'
+    return new Response(JSON.stringify({ error: description }), {
+      status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
   }
@@ -108,8 +109,9 @@ export const POST: APIRoute = async ({ request }) => {
   if (!paymentRes.ok) {
     const err = await paymentRes.json().catch(() => ({}))
     console.error('[asaas] Erro ao criar pagamento:', err)
-    return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
-      status: 500,
+    const description: string = err?.errors?.[0]?.description ?? 'Erro ao criar sessão de pagamento'
+    return new Response(JSON.stringify({ error: description }), {
+      status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
   }

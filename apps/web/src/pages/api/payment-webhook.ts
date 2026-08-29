@@ -22,6 +22,7 @@ export const POST: APIRoute = async ({ request }) => {
     creditCard?: { creditCardBrand?: string }
   }
 
+  type AsaasCustomer = { name?: string; email?: string }
   type AsaasEvent = { event: string; payment: AsaasPayment }
 
   let body: AsaasEvent
@@ -36,6 +37,26 @@ export const POST: APIRoute = async ({ request }) => {
   if (isPaid) {
     const p = body.payment
     const giftId = p.externalReference ?? null
+
+    // Fetch customer to get the guest's name and email
+    let buyerName: string | null = null
+    let buyerEmail: string | null = null
+    if (p.customer) {
+      const baseUrl = import.meta.env.ASAAS_SANDBOX === 'true'
+        ? 'https://api-sandbox.asaas.com'
+        : 'https://api.asaas.com'
+      const customerRes = await fetch(`${baseUrl}/v3/customers/${p.customer}`, {
+        headers: {
+          access_token: import.meta.env.ASAAS_API_KEY,
+          'user-agent': 'RaissaEFelipe2026/1.0',
+        },
+      }).catch(() => null)
+      if (customerRes?.ok) {
+        const c = (await customerRes.json()) as AsaasCustomer
+        buyerName  = c.name  ?? null
+        buyerEmail = c.email ?? null
+      }
+    }
 
     // Extract optional buyer message from description ("Gift Name - Mensagem: ...")
     const buyerMessage = p.description?.includes('- Mensagem:')
@@ -55,6 +76,8 @@ export const POST: APIRoute = async ({ request }) => {
       gift_id:             giftId,
       provider_session_id: p.id,
       provider_payment_id: p.id,
+      buyer_name:          buyerName,
+      buyer_email:         buyerEmail,
       buyer_message:       buyerMessage,
       amount_cents:        Math.round(p.value * 100),
       currency:            'brl',
