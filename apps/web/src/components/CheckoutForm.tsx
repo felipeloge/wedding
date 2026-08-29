@@ -11,10 +11,20 @@ function formatBRL(cents: number): string {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(cents / 100)
 }
 
+function maskCpf(value: string): string {
+  const digits = value.replace(/\D/g, '').slice(0, 11)
+  return digits
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+}
+
 export function CheckoutForm({ gift }: Props) {
+  const [name, setName]       = useState('')
+  const [cpf, setCpf]         = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError]     = useState('')
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -25,7 +35,12 @@ export function CheckoutForm({ gift }: Props) {
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ giftId: gift.id, buyerMessage: message }),
+        body: JSON.stringify({
+          giftId: gift.id,
+          buyerName: name.trim(),
+          buyerCpf: cpf.replace(/\D/g, ''),
+          buyerMessage: message,
+        }),
       })
 
       if (!res.ok) {
@@ -66,6 +81,41 @@ export function CheckoutForm({ gift }: Props) {
               {formatBRL(gift.price_cents)}
             </p>
           </div>
+        </div>
+      </div>
+
+      <div className={styles.CheckoutFields}>
+        <div className={styles.CheckoutField}>
+          <label htmlFor="buyer-name" className={styles.CheckoutFieldLabel}>
+            Nome
+          </label>
+          <input
+            className={styles.CheckoutFieldInput}
+            id="buyer-name"
+            type="text"
+            required
+            autoComplete="name"
+            placeholder="Nome e sobrenome"
+            value={name}
+            onChange={(ev) => setName(ev.target.value)}
+          />
+        </div>
+
+        <div className={styles.CheckoutField}>
+          <label htmlFor="buyer-cpf" className={styles.CheckoutFieldLabel}>
+            CPF
+          </label>
+          <input
+            className={styles.CheckoutFieldInput}
+            id="buyer-cpf"
+            type="text"
+            inputMode="numeric"
+            required
+            autoComplete="off"
+            placeholder="000.000.000-00"
+            value={cpf}
+            onChange={(ev) => setCpf(maskCpf(ev.target.value))}
+          />
         </div>
       </div>
 
