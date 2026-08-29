@@ -44,6 +44,7 @@ export const POST: APIRoute = async ({ request }) => {
     accept: 'application/json',
     'content-type': 'application/json',
     access_token: apiKey,
+    'user-agent': 'RaissaEFelipe2026/1.0',
   }
 
   // Asaas requires a customer entity before creating a payment
