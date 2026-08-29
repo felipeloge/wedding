@@ -1,3 +1,8 @@
 name = "wedding-web"
+main = "apps/web/dist/server/entry.mjs"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+binding = "ASSETS"
+directory = "apps/web/dist/client"
