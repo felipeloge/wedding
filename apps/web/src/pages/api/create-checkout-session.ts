@@ -68,9 +68,13 @@ export const POST: APIRoute = async ({ request }) => {
   // Due date 7 days from now gives guests enough time to complete the payment
   const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
 
+  // Asaas rejects emojis and non-ASCII special characters in description
+  const sanitize = (s: string) =>
+    s.replace(/[^\u0000-\u00FF]/g, '').replace(/[|]/g, '-').trim()
+
   const description = buyerMessage
-    ? `${gift.name} | Mensagem: ${buyerMessage.slice(0, 400)}`
-    : gift.name
+    ? `${sanitize(gift.name)} - Mensagem: ${sanitize(buyerMessage).slice(0, 400)}`
+    : sanitize(gift.name)
 
   const paymentRes = await fetch(`${baseUrl}/v3/payments`, {
     method: 'POST',

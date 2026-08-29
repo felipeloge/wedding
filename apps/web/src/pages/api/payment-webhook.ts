@@ -37,9 +37,9 @@ export const POST: APIRoute = async ({ request }) => {
     const p = body.payment
     const giftId = p.externalReference ?? null
 
-    // Extract optional buyer message from description ("Gift Name | Mensagem: ...")
-    const buyerMessage = p.description?.includes('| Mensagem:')
-      ? p.description.split('| Mensagem:')[1]?.trim() ?? null
+    // Extract optional buyer message from description ("Gift Name - Mensagem: ...")
+    const buyerMessage = p.description?.includes('- Mensagem:')
+      ? p.description.split('- Mensagem:')[1]?.trim() ?? null
       : null
 
     const paymentMethod = p.billingType === 'CREDIT_CARD'
