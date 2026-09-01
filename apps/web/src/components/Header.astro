@@ -1,7 +1,12 @@
 ---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
-<header id="site-header" class="site-header">
+<header id="site-header" class:list={['site-header', className]}>
   <div class="site-header__inner">
     <div class="site-header__row">
       <div class="site-header__spacer"></div>
@@ -135,6 +140,7 @@
     z-index: 50;
     transition: background-color 500ms, border-color 500ms, box-shadow 500ms;
 
+    &.colored,
     &.scrolled {
       background: rgba(42, 51, 29, 0.95);
       backdrop-filter: blur(8px);

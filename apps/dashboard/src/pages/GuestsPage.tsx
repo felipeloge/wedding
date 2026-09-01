@@ -10,6 +10,8 @@ import {
   X,
   Loader2,
   Users,
+  Check,
+  Minus,
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import type { Guest, GuestCompanion } from '../lib/types'
@@ -356,7 +358,14 @@ export function GuestsPage() {
                     ) : (
                       <div className="space-y-0.5">
                         {guest.guest_companions.map((c) => (
-                          <div key={c.id} className="font-body text-xs text-text-muted">
+                          <div key={c.id} className="flex items-center gap-1 font-body text-xs text-text-muted">
+                            {c.rsvp_status === 'confirmed' ? (
+                              <Check className="w-3 h-3 shrink-0 text-primary" />
+                            ) : c.rsvp_status === 'declined' ? (
+                              <X className="w-3 h-3 shrink-0 text-red-500" />
+                            ) : (
+                              <Minus className="w-3 h-3 shrink-0 opacity-30" />
+                            )}
                             {c.name}
                           </div>
                         ))}

@@ -11,9 +11,12 @@ if (!code) {
   return Astro.redirect('/');
 }
 
+type Companion = { id: string; name: string; rsvp_status: string };
+
 let guestName: string | null = null;
 let alreadyConfirmed = false;
 let notFound = false;
+let companions: Companion[] = [];
 
 try {
   const supabase = createClient(
@@ -22,7 +25,7 @@ try {
   );
   const { data: guest } = await supabase
     .from('guests')
-    .select('name, rsvp_status')
+    .select('name, rsvp_status, guest_companions(id, name, rsvp_status)')
     .eq('short_url_code', code)
     .single();
 
@@ -31,6 +34,7 @@ try {
   } else {
     guestName = guest.name;
     alreadyConfirmed = guest.rsvp_status === 'confirmed';
+    companions = (guest.guest_companions as Companion[]) ?? [];
   }
 } catch {
   notFound = true;
@@ -41,7 +45,7 @@ try {
   title="Confirmar Presença | Raíssa & Felipe"
   description="Confirme sua presença no casamento de Raíssa e Felipe."
 >
-  <Header />
+  <Header class="colored" />
 
   <main class="confirm-page">
     <div class="confirm-inner">
@@ -71,6 +75,29 @@ try {
             Sua presença já está confirmada. Estamos ansiosos para celebrar com você em{' '}
             <strong>28 de novembro de 2026</strong>.
           </p>
+
+          {companions.length ? (
+            <div class="companion-list companion-list--readonly">
+              <p class="companion-list__heading">Acompanhantes</p>
+              <ul class="companion-status-list">
+                {companions.map((c) => (
+                  <li class={`companion-status-item companion-status-item--${c.rsvp_status === 'confirmed' ? 'confirmed' : c.rsvp_status === 'declined' ? 'declined' : 'pending'}`}>
+                    <span class="companion-status-item__icon">
+                      {c.rsvp_status === 'confirmed' ? (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5" /></svg>
+                      ) : c.rsvp_status === 'declined' ? (
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+                      ) : (
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6" /></svg>
+                      )}
+                    </span>
+                    {c.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
           <a href="/" class="btn-outline">Voltar ao início</a>
         </div>
       ) : (
@@ -89,6 +116,38 @@ try {
             Raíssa e Felipe têm o prazer de convidá-lo(a) para o casamento deles.
             Confirme sua presença clicando no botão abaixo.
           </p>
+
+          {companions.length ? (
+            <hr />
+            <div class="companion-list">
+              <p class="companion-list__heading">Acompanhantes</p>
+              <div class="companion-toggles">
+                {companions.map((c) => (
+                  <button
+                    type="button"
+                    class="companion-toggle companion-toggle--selected"
+                    data-companion-id={c.id}
+                    aria-pressed="true"
+                  >
+                    <span class="companion-toggle__check">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5" /></svg>
+                    </span>
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+              <p class="companion-list__hint">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                  <circle cx="12" cy="12" r="9" />
+                  <line x1="12" y1="10" x2="12" y2="16" />
+                  <circle cx="12" cy="7" r="1.2" fill="currentColor" stroke="none" />
+                </svg>
+                <span>Toque para incluir ou remover um acompanhante.</span>
+              </p>
+            </div>
+          ) : null}
+
+          <hr />
           <p class="confirm-date">28 de novembro de 2026</p>
 
           <div class="confirm-actions">
@@ -99,7 +158,6 @@ try {
             >
               Confirmar presença
             </button>
-            <a href="/" class="btn-outline">Ver o site</a>
           </div>
 
           <p id="confirm-error" class="confirm-error" style="display:none"></p>
@@ -130,6 +188,13 @@ try {
   const successCard = document.getElementById('confirm-success') as HTMLElement | null;
   const errorEl = document.getElementById('confirm-error') as HTMLElement | null;
 
+  document.querySelectorAll<HTMLButtonElement>('.companion-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const selected = toggle.classList.toggle('companion-toggle--selected');
+      toggle.setAttribute('aria-pressed', String(selected));
+    });
+  });
+
   btn?.addEventListener('click', async () => {
     const code = btn.dataset.code;
     if (!code) return;
@@ -137,11 +202,15 @@ try {
     btn.disabled = true;
     btn.textContent = 'Confirmando...';
 
+    const confirmedCompanionIds = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('.companion-toggle--selected'),
+    ).map((t) => t.dataset.companionId as string);
+
     try {
       const res = await fetch('/api/confirm-rsvp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ code, confirmedCompanionIds }),
       });
 
       if (!res.ok) {
@@ -166,147 +235,298 @@ try {
   @use '../../styles/variables' as v;
 
   .confirm-page {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 7.2rem 2.4rem 4rem;
-    background: v.$c-bg;
+    padding: 8.8rem 2.4rem 2.4rem;
+    background: white;
+
+    hr {
+      margin: 2.4rem 0;
+      height: 0.1rem;
+      background-color: v.$c-border;
+      border: 0;
+    }
   }
 
   .confirm-inner {
     width: 100%;
-    max-width: 44rem;
+    max-width: 48rem;
   }
 
   .confirm-card {
-    background: v.$c-surface-lowest;
-    border: 1px solid v.$c-border;
-    padding: 4rem 3.2rem;
+    padding: 2.4rem;
     text-align: center;
-
-    @media (max-width: 480px) {
-      padding: 3.2rem 2rem;
-    }
+    border: 0.1rem solid v.$c-border;
+    border-radius: 1.6rem;
   }
 
   .confirm-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 5.6rem;
-    height: 5.6rem;
-    margin: 0 auto 2rem;
+    width: 6.4rem;
+    height: 6.4rem;
+    margin: 0 auto 2.4rem;
     border-radius: 100%;
+  }
 
-    &--success {
-      background: rgba(64, 74, 50, 0.1);
-      color: v.$c-primary;
-    }
+  .confirm-icon--success {
+    color: v.$c-primary;
+    background: rgba(64, 74, 50, 0.1);
+  }
 
-    &--pending {
-      background: rgba(94, 124, 89, 0.1);
-      color: v.$c-secondary;
-    }
+  .confirm-icon--pending {
+    color: v.$c-secondary;
+    background: rgba(94, 124, 89, 0.1);
+  }
 
-    &--error {
-      background: rgba(220, 38, 38, 0.08);
-      color: #dc2626;
-    }
+  .confirm-icon--error {
+    color: v.$c-red;
+    background: rgba(164, 102, 102, 0.08);
   }
 
   .confirm-eyebrow {
-    font-family: v.$f-body;
-    font-size: 1.1rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: v.$c-text-muted;
     margin: 0 0 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: v.$c-primary;
   }
 
   .confirm-title {
+    margin: 0 0 1.6rem;
     font-family: v.$f-display;
     font-size: clamp(2.4rem, 4vw, 3.2rem);
     font-weight: 400;
-    color: v.$c-text;
-    margin: 0 0 1.6rem;
     line-height: 1.2;
+    color: v.$c-primary-dark;
   }
 
   .confirm-text {
+    margin: 0 0 2.4rem;
     font-family: v.$f-body;
-    font-size: 1.5rem;
-    line-height: 1.7;
-    color: v.$c-text-muted;
-    margin: 0 0 2rem;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: v.$c-text;
   }
 
   .confirm-date {
+    margin: 0 0 2.4rem;
     font-family: v.$f-display;
-    font-size: 1.8rem;
-    color: v.$c-primary;
-    margin: 0 0 2.8rem;
-    font-style: italic;
+    font-size: 2rem;
+    line-height: 1.1;
+    color: v.$c-primary-dark;
   }
 
   .confirm-actions {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
     align-items: center;
+    gap: 1.6rem;
   }
 
   .confirm-error {
+    margin-top: 1.6rem;
     font-family: v.$f-body;
-    font-size: 1.3rem;
-    color: #dc2626;
-    margin-top: 1.2rem;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    color: v.$c-red;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.1rem 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    font-weight: 500;
+    line-height: 1.25;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: white;
+    border: 0.1rem solid transparent;
+    border-radius: 0.4rem;
+    transition: background-color 150ms;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 0.2rem solid v.$c-primary-light;
+      outline-offset: 0;
+    }
   }
 
   .btn-primary {
-    display: inline-block;
-    padding: 1.4rem 3.2rem;
     background: v.$c-primary;
-    color: white;
-    font-family: v.$f-body;
-    font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    border: none;
-    transition: background 0.2s;
-    width: fit-content;
 
-    &:hover:not(:disabled) {
+    &:hover {
       background: v.$c-primary-dark;
     }
 
-    &:disabled {
-      opacity: 0.6;
+    &[disabled] {
+      opacity: 0.5;
       cursor: not-allowed;
     }
   }
 
   .btn-outline {
-    display: inline-block;
-    padding: 1.3rem 3.2rem;
-    background: transparent;
-    color: v.$c-text-muted;
-    font-family: v.$f-body;
-    font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid v.$c-border;
-    transition: border-color 0.2s, color 0.2s;
+    color: v.$c-primary;
+    background-color: white;
+    border-color: v.$c-primary;
 
     &:hover {
-      border-color: v.$c-primary;
-      color: v.$c-text;
+      background: v.$c-primary-light;
     }
+  }
+
+  .companion-list {
+    margin: 2.4rem 0;
+    text-align: initial;
+  }
+
+  .companion-list--readonly {
+    margin-bottom: 2.4rem;
+  }
+
+  .companion-list__heading {
+    margin: 0 0 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+    text-transform: uppercase;
+    text-align: center;
+    color: v.$c-primary;
+  }
+
+  .companion-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .companion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+    padding: 1.2rem 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    color: v.$c-text-muted;
+    text-align: left;
+    background: transparent;
+    border: 0.1rem solid v.$c-border;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    &:focus-visible {
+      outline: 0.2rem solid v.$c-primary-light;
+      outline-offset: 0;
+    }
+  }
+
+  .companion-toggle--selected {
+    color: v.$c-primary-dark;
+    border-color: v.$c-primary;
+
+    .companion-toggle__check {
+      color: white;
+      background: v.$c-primary;
+      border-color: v.$c-primary;
+    }
+  }
+
+  .companion-toggle__check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    color: transparent;
+    border: 0.2rem solid v.$c-border;
+    border-radius: 50%;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .companion-list__hint {
+    display: inline-flex;
+    gap: 0.8rem;
+    margin: 0;
+    padding: 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    background: rgba(94, 124, 89, 0.1);
+    border-radius: 0.4rem;
+    color: v.$c-text;
+
+    svg {
+      flex: 0 0 2rem;
+      stroke: v.$c-primary;
+    }
+  }
+
+  .companion-status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .companion-status-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+    border: 0.1rem solid v.$c-border;
+    border-radius: 0.4rem;
+  }
+
+  .companion-status-item--confirmed {
+    color: v.$c-text;
+
+    .companion-status-item__icon {
+      color: v.$c-primary;
+      background: rgba(64, 74, 50, 0.1);
+    }
+  }
+
+  .companion-status-item--declined {
+    color: v.$c-text-muted;
+
+    .companion-status-item__icon {
+      color: v.$c-red;
+      background: rgba(220, 38, 38, 0.08);
+    }
+  }
+
+  .companion-status-item--pending {
+    color: v.$c-text-muted;
+
+    .companion-status-item__icon {
+      color: v.$c-secondary;
+      background: rgba(94, 124, 89, 0.1);
+    }
+  }
+
+  .companion-status-item__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
   }
 </style>

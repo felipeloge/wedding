@@ -6,6 +6,9 @@ export const prerender = false
 export const POST: APIRoute = async ({ request }) => {
   const json = await request.json().catch(() => null)
   const code = typeof json?.code === 'string' ? json.code.trim() : null
+  const confirmedCompanionIds: string[] = Array.isArray(json?.confirmedCompanionIds)
+    ? (json.confirmedCompanionIds as unknown[]).filter((id): id is string => typeof id === 'string')
+    : []
 
   if (!code) {
     return new Response(JSON.stringify({ error: 'Código inválido.' }), {
@@ -50,6 +53,26 @@ export const POST: APIRoute = async ({ request }) => {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
+  }
+
+  const { data: allCompanions } = await supabase
+    .from('guest_companions')
+    .select('id')
+    .eq('guest_id', guest.id)
+
+  if (allCompanions && allCompanions.length > 0) {
+    const confirmedSet = new Set(confirmedCompanionIds)
+    const toConfirm = allCompanions.map((c) => c.id).filter((id) => confirmedSet.has(id))
+    const toDecline = allCompanions.map((c) => c.id).filter((id) => !confirmedSet.has(id))
+
+    await Promise.all([
+      toConfirm.length > 0
+        ? supabase.from('guest_companions').update({ rsvp_status: 'confirmed' }).in('id', toConfirm)
+        : Promise.resolve(),
+      toDecline.length > 0
+        ? supabase.from('guest_companions').update({ rsvp_status: 'declined' }).in('id', toDecline)
+        : Promise.resolve(),
+    ])
   }
 
   return new Response(JSON.stringify({ success: true }), {

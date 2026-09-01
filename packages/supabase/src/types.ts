@@ -117,6 +117,7 @@ export interface Database {
           guest_id: string
           name: string
           phone: string | null
+          rsvp_status: string
           created_at: string
         }
         Insert: {
@@ -124,11 +125,13 @@ export interface Database {
           guest_id: string
           name: string
           phone?: string | null
+          rsvp_status?: string
           created_at?: string
         }
         Update: {
           name?: string
           phone?: string | null
+          rsvp_status?: string
         }
       }
       whatsapp_messages: {
