@@ -108,17 +108,6 @@ export const POST: APIRoute = async ({ request }) => {
     if (insertError) {
       console.error('[payment-webhook] Erro ao salvar pagamento:', insertError)
     }
-
-    if (giftId) {
-      const { error: updateError } = await supabase
-        .from('gifts')
-        .update({ is_available: false })
-        .eq('id', giftId)
-
-      if (updateError) {
-        console.error('[payment-webhook] Erro ao atualizar gift:', updateError)
-      }
-    }
   }
 
   return new Response('OK', { status: 200 })
