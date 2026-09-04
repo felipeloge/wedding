@@ -13,19 +13,7 @@ export const POST: APIRoute = async ({ request }) => {
     })
   }
 
-  const { giftId, buyerName, buyerCpf, buyerMessage } = json as {
-    giftId: string
-    buyerName: string
-    buyerCpf: string
-    buyerMessage?: string
-  }
-
-  if (!buyerName?.trim() || !buyerCpf?.trim()) {
-    return new Response(JSON.stringify({ error: 'Nome e CPF são obrigatórios' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }
+  const { giftId, buyerMessage } = json as { giftId: string; buyerMessage?: string }
 
   const supabase = createClient(
     import.meta.env.SUPABASE_URL,
@@ -46,87 +34,79 @@ export const POST: APIRoute = async ({ request }) => {
     })
   }
 
-  const origin  = new URL(request.url).origin
-  const apiKey  = import.meta.env.ASAAS_API_KEY
-  const baseUrl = import.meta.env.ASAAS_SANDBOX === 'true'
-    ? 'https://api-sandbox.asaas.com'
-    : 'https://api.asaas.com'
+  const origin      = new URL(request.url).origin
+  const accessToken = import.meta.env.MERCADOPAGO_ACCESS_TOKEN
 
-  const headers = {
-    accept: 'application/json',
-    'content-type': 'application/json',
-    access_token: apiKey,
-    'user-agent': 'RaissaEFelipe2026/1.0',
-  }
-
-  const customerRes = await fetch(`${baseUrl}/v3/customers`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ name: buyerName.trim(), cpfCnpj: buyerCpf.replace(/\D/g, '') }),
-  })
-
-  if (!customerRes.ok) {
-    const err = await customerRes.json().catch(() => ({}))
-    console.error('[asaas] Erro ao criar cliente:', err)
-    const description: string = err?.errors?.[0]?.description ?? 'Erro ao criar sessão de pagamento'
-    return new Response(JSON.stringify({ error: description }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }
-
-  const { id: customerId } = await customerRes.json() as { id: string }
-
-  // Due date 7 days from now gives guests enough time to complete the payment
-  const dueDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
-
-  // Asaas rejects emojis and non-ASCII special characters in description
-  const sanitize = (s: string) =>
-    s.replace(/[^\u0000-\u00FF]/g, '').replace(/[|]/g, '-').trim()
-
-  const description = buyerMessage
-    ? `${sanitize(gift.name)} - Mensagem: ${sanitize(buyerMessage).slice(0, 400)}`
-    : sanitize(gift.name)
-
-  const paymentRes = await fetch(`${baseUrl}/v3/payments`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      customer: customerId,
-      // CREDIT_CARD shows the installment selector; DEBIT_CARD is not a standalone option in the API
-      billingType: 'CREDIT_CARD',
-      value: gift.price_cents / 100,
-      dueDate,
-      description,
-      externalReference: giftId,
-      callback: {
-        successUrl: `${origin}/obrigado`,
-        autoRedirect: true,
+  const preferenceBody = {
+    items: [
+      {
+        title: gift.name,
+        description: gift.description ?? undefined,
+        quantity: 1,
+        unit_price: gift.price_cents / 100,
+        currency_id: 'BRL',
+        picture_url: gift.image_url ?? undefined,
       },
-    }),
-  })
+    ],
+    back_urls: {
+      success: `${origin}/obrigado`,
+      failure: `${origin}/presentes`,
+      pending: `${origin}/obrigado`,
+    },
+    auto_return: 'approved',
+    notification_url: `${origin}/api/payment-webhook`,
+    external_reference: giftId,
+    metadata: {
+      gift_id: giftId,
+      buyer_message: (buyerMessage ?? '').slice(0, 500),
+    },
+  }
 
-  if (!paymentRes.ok) {
-    const err = await paymentRes.json().catch(() => ({}))
-    console.error('[asaas] Erro ao criar pagamento:', err)
-    const description: string = err?.errors?.[0]?.description ?? 'Erro ao criar sessão de pagamento'
+  let mpRes: Response
+  try {
+    mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(preferenceBody),
+    })
+  } catch (err) {
+    console.error('[mercadopago] Erro de rede:', err)
+    return new Response(JSON.stringify({ error: 'Erro ao criar sessão de pagamento' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (!mpRes.ok) {
+    const errBody = await mpRes.json().catch(() => ({}))
+    console.error('[mercadopago] Erro ao criar preferência:', errBody)
+    const description: string = errBody?.message ?? 'Erro ao criar sessão de pagamento'
     return new Response(JSON.stringify({ error: description }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  const payment = await paymentRes.json() as { invoiceUrl: string }
+  const preference = await mpRes.json()
 
-  if (!payment.invoiceUrl) {
-    console.error('[asaas] invoiceUrl ausente:', payment)
+  // Test access tokens (TEST-...) must redirect to the sandbox checkout
+  const isTest = String(accessToken).startsWith('TEST-')
+  const paymentUrl: string | undefined = isTest
+    ? preference.sandbox_init_point
+    : preference.init_point
+
+  if (!paymentUrl) {
+    console.error('[mercadopago] init_point ausente na resposta:', preference)
     return new Response(JSON.stringify({ error: 'URL de pagamento não retornada' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     })
   }
 
-  return new Response(JSON.stringify({ url: payment.invoiceUrl }), {
+  return new Response(JSON.stringify({ url: paymentUrl }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
   })

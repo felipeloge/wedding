@@ -67,51 +67,6 @@
   margin-top: 1.6rem;
 }
 
-// ─── Buyer fields (name + CPF) ────────────────────────────────────────────────
-
-.CheckoutFields {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-.CheckoutField {
-  display: flex;
-  flex-direction: column;
-}
-
-.CheckoutFieldLabel {
-  font-family: v.$f-body;
-  font-size: 1.6rem;
-  font-weight: 500;
-  line-height: 1.25;
-  color: v.$c-text;
-  margin-bottom: 0.8rem;
-}
-
-.CheckoutFieldInput {
-  width: 100%;
-  padding: 0.8rem;
-  font-family: v.$f-body;
-  font-size: 1.6rem;
-  line-height: 1.25;
-  color: v.$c-text;
-  background: white;
-  border: 1px solid v.$c-secondary;
-  border-radius: 0.4rem;
-  outline: none;
-  transition: border-color 150ms;
-
-  &::placeholder {
-    color: #464646;
-  }
-
-  &:focus {
-    border-color: v.$c-primary;
-    outline: 0.4rem solid v.$c-primary-light;
-  }
-}
-
 // ─── Message field ────────────────────────────────────────────────────────────
 
 .CheckoutMessage {
