@@ -51,6 +51,7 @@ The paths point to build artifacts — they only exist after `astro build` runs.
 | `NODE_VERSION` | `22` — required so Cloudflare activates Corepack + pnpm |
 | `PUBLIC_SUPABASE_URL` | Baked into static HTML at build time |
 | `PUBLIC_SUPABASE_ANON_KEY` | Baked into static HTML at build time |
+| `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 Measurement ID — baked into static HTML at build time |
 | `SUPABASE_URL` | Available to API routes at runtime |
 | `SUPABASE_ANON_KEY` | Available to API routes at runtime |
 | `SUPABASE_SERVICE_ROLE_KEY` | Secret — available to API routes at runtime |
@@ -118,3 +119,4 @@ A workflow exists at `.github/workflows/deploy-web.yml` that also handles deploy
 - `CLOUDFLARE_ACCOUNT_ID`
 - `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 - `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`
+- `PUBLIC_GA_MEASUREMENT_ID`

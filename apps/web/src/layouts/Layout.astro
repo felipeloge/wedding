@@ -10,6 +10,8 @@ const {
   title = 'Raíssa & Felipe | 28.11.2026',
   description = 'Celebre conosco o nosso casamento em 28 de novembro de 2026.',
 } = Astro.props
+
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID
 ---
 
 <!doctype html>
@@ -43,6 +45,19 @@ const {
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+
+    <!-- Google Analytics -->
+    {gaMeasurementId ? (
+      <>
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+        <script define:vars={{ gaMeasurementId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaMeasurementId);
+        </script>
+      </>
+    ) : null}
   </head>
   <body class="min-h-screen bg-background antialiased">
     <slot />
