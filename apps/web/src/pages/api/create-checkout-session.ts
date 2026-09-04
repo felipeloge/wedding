@@ -54,6 +54,9 @@ export const POST: APIRoute = async ({ request }) => {
       pending: `${origin}/obrigado`,
     },
     auto_return: 'approved',
+    payment_methods: {
+      installments: 12,
+    },
     notification_url: `${origin}/api/payment-webhook`,
     external_reference: giftId,
     metadata: {
