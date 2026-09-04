@@ -39,6 +39,20 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
       </p>
     </div>
     <section class="gifts__content">
+      <div class="gifts__pix gifts__pix--summary">
+        <h2 class="gifts__pix-title">Um presente do seu jeito</h2>
+        <p class="gifts__pix-description">
+          Se você preferir nos presentear de uma forma diferente, também ficaremos muito felizes com uma contribuição via PIX.
+        </p>
+        <button
+          type="button"
+          class="gifts__pix-button"
+          data-pix-copy
+          data-pix="14998560205"
+        >
+          Copiar chave PIX
+        </button>
+      </div>
       <GiftGrid client:load gifts={gifts} />
       <div class="gifts__pix">
         <h2 class="gifts__pix-title">
@@ -50,7 +64,7 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
         <button
           type="button"
           class="gifts__pix-button"
-          id="pix-copy-btn"
+          data-pix-copy
           data-pix="14998560205"
         >
           Copiar chave PIX
@@ -62,17 +76,18 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
 </Layout>
 
 <script>
-  const btn = document.getElementById('pix-copy-btn') as HTMLButtonElement | null
-  btn?.addEventListener('click', async () => {
-    const key = btn.dataset.pix ?? ''
-    await navigator.clipboard.writeText(key)
-    const original = btn.textContent
-    btn.textContent = 'Chave copiada!'
-    btn.disabled = true
-    setTimeout(() => {
-      btn.textContent = original
-      btn.disabled = false
-    }, 2000)
+  document.querySelectorAll<HTMLButtonElement>('[data-pix-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      const key = button.dataset.pix ?? ''
+      await navigator.clipboard.writeText(key)
+      const original = button.textContent
+      button.textContent = 'Chave copiada!'
+      button.disabled = true
+      setTimeout(() => {
+        button.textContent = original
+        button.disabled = false
+      }, 2000)
+    })
   })
 </script>
 
@@ -108,6 +123,10 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
     padding: 4.8rem;
     text-align: center;
     background-color: v.$c-primary-light;
+  }
+
+  .gifts__pix--summary {
+    padding: 3.2rem 1.6rem;
   }
 
   .gifts__pix-title {
