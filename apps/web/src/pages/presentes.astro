@@ -44,14 +44,19 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
         <p class="gifts__pix-description">
           Se você preferir nos presentear de uma forma diferente, também ficaremos muito felizes com uma contribuição via PIX.
         </p>
-        <button
-          type="button"
-          class="gifts__pix-button"
-          data-pix-copy
-          data-pix="14998560205"
-        >
-          Copiar chave PIX
-        </button>
+        <div class="gifts__pix-actions">
+          <button
+            type="button"
+            class="gifts__pix-button"
+            data-pix-copy
+            data-pix="14998560205"
+          >
+            Copiar chave PIX
+          </button>
+          <a class="gifts__pix-message-link" href="/mensagem">
+            Deixar uma mensagem para os noivos
+          </a>
+        </div>
       </div>
       <GiftGrid client:load gifts={gifts} />
     </section>
@@ -119,9 +124,28 @@ if (import.meta.env.SUPABASE_URL && import.meta.env.SUPABASE_ANON_KEY) {
     font-size: 1.6rem;
   }
 
+  .gifts__pix-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+    margin-top: 2.4rem;
+  }
+
+  .gifts__pix-message-link {
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: v.$c-primary;
+    text-decoration: underline;
+
+    &:hover {
+      color: v.$c-primary-dark;
+    }
+  }
+
   .gifts__pix-button {
     display: inline-block;
-    margin-top: 2.4rem;
     padding: 1.2rem 2.4rem;
     font-family: v.$f-body;
     font-size: 1.6rem;

@@ -185,6 +185,25 @@ export type Database = {
           },
         ]
       }
+      pix_messages: {
+        Row: {
+          id: string
+          name: string
+          message: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          message: string
+          created_at?: string
+        }
+        Update: {
+          name?: string
+          message?: string
+        }
+        Relationships: []
+      }
     }
     Views: Record<string, never>
     Functions: Record<string, never>
@@ -204,3 +223,5 @@ export type GuestUpdate = Database['public']['Tables']['guests']['Update']
 export type GuestCompanion = Database['public']['Tables']['guest_companions']['Row']
 export type GuestCompanionInsert = Database['public']['Tables']['guest_companions']['Insert']
 export type WhatsappMessage = Database['public']['Tables']['whatsapp_messages']['Row']
+export type PixMessage = Database['public']['Tables']['pix_messages']['Row']
+export type PixMessageInsert = Database['public']['Tables']['pix_messages']['Insert']

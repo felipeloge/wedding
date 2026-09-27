@@ -12,6 +12,7 @@ import { DashboardHomePage } from './pages/DashboardHomePage'
 import { GiftsPage } from './pages/GiftsPage'
 import { PaymentsPage } from './pages/PaymentsPage'
 import { GuestsPage } from './pages/GuestsPage'
+import { MessagesPage } from './pages/MessagesPage'
 import { supabase } from './lib/supabase'
 
 // ── Root ──────────────────────────────────────────────────────
@@ -82,12 +83,24 @@ const guestsRoute = createRoute({
   component: GuestsPage,
 })
 
+const messagesRoute = createRoute({
+  getParentRoute: () => dashboardRoute,
+  path: '/messages',
+  component: MessagesPage,
+})
+
 // ── Route tree ────────────────────────────────────────────────
 const routeTree = rootRoute.addChildren([
   indexRoute,
   loginRoute,
   protectedRoute.addChildren([
-    dashboardRoute.addChildren([dashboardIndexRoute, giftsRoute, paymentsRoute, guestsRoute]),
+    dashboardRoute.addChildren([
+      dashboardIndexRoute,
+      giftsRoute,
+      paymentsRoute,
+      guestsRoute,
+      messagesRoute,
+    ]),
   ]),
 ])
 

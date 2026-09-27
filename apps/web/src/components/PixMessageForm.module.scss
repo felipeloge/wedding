@@ -1,0 +1,140 @@
+@use '../styles/variables' as v;
+
+.PixMessageForm {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+// ─── Fields ───────────────────────────────────────────────────────────────────
+
+.PixMessageField {
+  display: flex;
+  flex-direction: column;
+}
+
+.PixMessageLabel {
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: v.$c-text;
+  margin-bottom: 0.8rem;
+}
+
+.PixMessageInput,
+.PixMessageTextarea {
+  width: 100%;
+  padding: 0.8rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: v.$c-text;
+  background: white;
+  border: 1px solid v.$c-secondary;
+  border-radius: 0.4rem;
+  outline: none;
+  transition: border-color 150ms;
+
+  &::placeholder {
+    color: #464646;
+  }
+
+  &:focus {
+    border-color: v.$c-primary;
+    outline: 0.4rem solid v.$c-primary-light;
+  }
+}
+
+.PixMessageTextarea {
+  min-height: 14rem;
+  field-sizing: content;
+  resize: none;
+}
+
+.PixMessageCharCount {
+  margin-top: 0.4rem;
+  font-family: v.$f-body;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  text-align: right;
+  color: v.$c-text;
+}
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+
+.PixMessageError {
+  padding: 1.6rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: v.$c-red;
+  background: #fef2f2;
+  border: 0.1rem solid #fecaca;
+}
+
+// ─── Submit ───────────────────────────────────────────────────────────────────
+
+.PixMessageSubmitButton {
+  width: 100%;
+  padding: 1.2rem 1.6rem;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  color: white;
+  background: v.$c-primary;
+  border: 0;
+  border-radius: 0.4rem;
+  transition: background-color 200ms;
+
+  &:hover:not(:disabled) {
+    background: v.$c-primary-dark;
+  }
+
+  &:focus-visible {
+    outline: 0.2rem solid v.$c-primary-light;
+    outline-offset: 0;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// ─── Sent state ───────────────────────────────────────────────────────────────
+
+.PixMessageSent {
+  padding: 3.2rem 1.6rem;
+  text-align: center;
+}
+
+.PixMessageSentTitle {
+  font-family: v.$f-display;
+  font-size: 2.4rem;
+  color: v.$c-text;
+  margin-bottom: 1.25rem;
+}
+
+.PixMessageSentText {
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  line-height: 1.25;
+  color: v.$c-text;
+  margin-bottom: 2.4rem;
+}
+
+.PixMessageSentLink {
+  display: inline-flex;
+  font-family: v.$f-body;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: v.$c-primary;
+
+  &:hover {
+    color: v.$c-primary-dark;
+  }
+}

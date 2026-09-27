@@ -1,0 +1,85 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { PixMessageForm } from '../components/PixMessageForm';
+---
+
+<Layout
+  title="Mensagem para os noivos | Raíssa & Felipe"
+  description="Deixe uma mensagem especial para Raíssa e Felipe."
+>
+  <Header />
+
+  <main class="pix-message">
+    <div class="pix-message__header">
+      <a
+        class="pix-message__back"
+        href="/presentes"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Voltar para a lista
+      </a>
+      <h1 class="pix-message__title">Deixe uma mensagem</h1>
+      <p class="pix-message__description">
+        Escreva algumas palavras carinhosas para Raíssa e Felipe.
+      </p>
+    </div>
+    <div class="pix-message__content">
+      <PixMessageForm client:load />
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style lang="scss" is:global>
+  @use '../styles/variables' as v;
+
+  .pix-message {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .pix-message__header {
+    padding: 10.4rem 2.4rem 2.4rem;
+    background: v.$c-primary-dark;
+    color: white;
+  }
+
+  .pix-message__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: v.$f-body;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: white;
+  }
+
+  .pix-message__title {
+    margin-top: 2.4rem;
+    font-family: v.$f-display;
+    font-size: 2.4rem;
+  }
+
+  .pix-message__description {
+    max-width: 48rem;
+    margin-top: 1.6rem;
+    font-family: v.$f-body;
+    font-size: 1.6rem;
+    line-height: 1.25;
+  }
+
+  .pix-message__content {
+    flex: 1;
+    max-width: 56rem;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2.4rem;
+  }
+</style>
