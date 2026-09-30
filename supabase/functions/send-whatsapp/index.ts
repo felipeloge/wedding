@@ -55,10 +55,17 @@ Deno.serve(async (req) => {
 
     // Build message text
     const message =
-      `Olá, ${guest.name}! 🌿\n\n` +
-      `Raíssa e Felipe têm o prazer de convidá-lo(a) para o casamento deles em *28 de novembro de 2026*! 🤍\n\n` +
-      `Para confirmar sua presença, acesse o link abaixo:\n${confirmUrl}\n\n` +
-      `Aguardamos você com muito carinho! 💚`
+      `Olá, ${guest.name}! \n\n` +
+      `Raíssa e Felipe têm o prazer de convidá-lo(a) para o casamento deles, que acontecerá no dia 28 de novembro de 2026! 🤍\n\n` +
+      `Para facilitar, preparamos um site com todas as informações do nosso casamento.\n\n` +
+      `✅ CONFIRME SUA PRESENÇA\n\n` +
+      `Acesse o link abaixo para confirmar sua presença:\n` +
+      `👉 ${confirmUrl}\n\n` +
+      `💍 SITE DO CASAMENTO\n\n` +
+      `No nosso site você encontrará todas as informações importantes, como local, horários, orientações e lista de presentes:\n` +
+      `👉 https://raissaefelipe2026.com.br \n\n` +
+      `Será uma alegria ter você conosco nesse dia tão especial!\n` +
+      `Aguardamos você com muito carinho! 🤍`
 
     // Call Evolution API
     const evolutionUrl = Deno.env.get('EVOLUTION_API_URL')
